@@ -1,0 +1,1191 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Home Winemaker Companion</title>
+<style>
+  @import url('https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,400;0,500;0,600;1,400&family=DM+Sans:wght@300;400;500&display=swap');
+
+  :root {
+    --bg: #faf8f4;
+    --surface: #ffffff;
+    --surface2: #f5f2ec;
+    --border: rgba(0,0,0,0.1);
+    --border2: rgba(0,0,0,0.18);
+    --text: #1a1410;
+    --text2: #5a5048;
+    --text3: #8a7d72;
+    --wine: #7a1c2e;
+    --wine-light: #f5eaec;
+    --wine-mid: #c4546a;
+    --gold: #b8882a;
+    --gold-light: #fdf5e6;
+    --gold-mid: #d4a84b;
+    --green: #2d6a4f;
+    --green-light: #e8f5ee;
+    --purple: #4a3570;
+    --purple-light: #ede8f7;
+    --radius: 12px;
+    --radius-sm: 8px;
+  }
+
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+
+  body {
+    font-family: 'DM Sans', sans-serif;
+    background: var(--bg);
+    color: var(--text);
+    min-height: 100vh;
+    font-size: 15px;
+  }
+
+  /* HEADER */
+  header {
+    background: var(--wine);
+    color: white;
+    padding: 2.5rem 2rem 2rem;
+    position: relative;
+    overflow: hidden;
+  }
+  header::before {
+    content: '';
+    position: absolute;
+    top: -60px; right: -60px;
+    width: 220px; height: 220px;
+    border-radius: 50%;
+    background: rgba(255,255,255,0.05);
+  }
+  header::after {
+    content: '';
+    position: absolute;
+    bottom: -40px; left: 30%;
+    width: 140px; height: 140px;
+    border-radius: 50%;
+    background: rgba(255,255,255,0.04);
+  }
+  .header-eyebrow {
+    font-size: 11px;
+    letter-spacing: 0.15em;
+    text-transform: uppercase;
+    opacity: 0.7;
+    margin-bottom: 8px;
+  }
+  .header-title {
+    font-family: 'Cormorant Garamond', serif;
+    font-size: 2.8rem;
+    font-weight: 500;
+    line-height: 1.1;
+    margin-bottom: 6px;
+  }
+  .header-sub {
+    font-size: 13px;
+    opacity: 0.75;
+    margin-bottom: 1.5rem;
+  }
+  .variety-pills { display: flex; gap: 8px; flex-wrap: wrap; }
+  .vpill {
+    background: rgba(255,255,255,0.15);
+    border: 1px solid rgba(255,255,255,0.25);
+    color: white;
+    font-size: 12px;
+    padding: 4px 12px;
+    border-radius: 20px;
+  }
+
+  /* NAV */
+  nav {
+    background: var(--surface);
+    border-bottom: 1px solid var(--border);
+    display: flex;
+    overflow-x: auto;
+    position: sticky;
+    top: 0;
+    z-index: 100;
+    -webkit-overflow-scrolling: touch;
+  }
+  nav::-webkit-scrollbar { display: none; }
+  .nav-btn {
+    padding: 14px 20px;
+    font-size: 13px;
+    font-family: 'DM Sans', sans-serif;
+    font-weight: 400;
+    color: var(--text3);
+    border: none;
+    background: none;
+    cursor: pointer;
+    white-space: nowrap;
+    border-bottom: 2px solid transparent;
+    transition: color 0.2s, border-color 0.2s;
+  }
+  .nav-btn.active { color: var(--wine); border-bottom-color: var(--wine); font-weight: 500; }
+  .nav-btn:hover:not(.active) { color: var(--text); }
+
+  /* MAIN */
+  main { max-width: 800px; margin: 0 auto; padding: 2rem 1.25rem 4rem; }
+
+  .panel { display: none; }
+  .panel.active { display: block; }
+
+  /* CARDS */
+  .card {
+    background: var(--surface);
+    border: 1px solid var(--border);
+    border-radius: var(--radius);
+    padding: 1.5rem;
+    margin-bottom: 1.25rem;
+  }
+  .card-title {
+    font-family: 'Cormorant Garamond', serif;
+    font-size: 1.35rem;
+    font-weight: 500;
+    margin-bottom: 1rem;
+    color: var(--text);
+  }
+  .section-eyebrow {
+    font-size: 10px;
+    font-weight: 500;
+    letter-spacing: 0.12em;
+    text-transform: uppercase;
+    color: var(--text3);
+    margin-bottom: 0.75rem;
+  }
+
+  /* METRICS */
+  .metric-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(130px, 1fr)); gap: 10px; margin-bottom: 1.25rem; }
+  .metric {
+    background: var(--surface2);
+    border-radius: var(--radius-sm);
+    padding: 1rem;
+  }
+  .metric-label { font-size: 10px; text-transform: uppercase; letter-spacing: 0.08em; color: var(--text3); margin-bottom: 6px; }
+  .metric-val { font-size: 1.6rem; font-weight: 300; color: var(--text); font-family: 'DM Sans', sans-serif; }
+  .metric-val span { font-size: 12px; color: var(--text3); margin-left: 2px; }
+
+  /* SLIDERS */
+  .slider-row { display: flex; align-items: center; gap: 12px; margin-bottom: 1rem; }
+  .slider-row label { font-size: 13px; color: var(--text2); min-width: 160px; }
+  .slider-row input[type=range] {
+    flex: 1;
+    -webkit-appearance: none;
+    height: 3px;
+    background: var(--border2);
+    border-radius: 2px;
+    outline: none;
+  }
+  .slider-row input[type=range]::-webkit-slider-thumb {
+    -webkit-appearance: none;
+    width: 16px; height: 16px;
+    border-radius: 50%;
+    background: var(--wine);
+    cursor: pointer;
+    border: 2px solid white;
+    box-shadow: 0 1px 4px rgba(0,0,0,0.2);
+  }
+  .slider-row .val { font-size: 13px; font-weight: 500; min-width: 48px; color: var(--text); }
+  .slider-row input[type=number] {
+    width: 80px;
+    border: 1px solid var(--border2);
+    border-radius: var(--radius-sm);
+    padding: 6px 10px;
+    font-size: 13px;
+    font-family: 'DM Sans', sans-serif;
+    background: var(--surface);
+    color: var(--text);
+  }
+
+  /* VARIETY BUTTONS */
+  .variety-btns { display: flex; gap: 8px; margin-bottom: 1.25rem; flex-wrap: wrap; }
+  .vbtn {
+    padding: 7px 16px;
+    font-size: 13px;
+    border: 1px solid var(--border2);
+    border-radius: 20px;
+    background: var(--surface);
+    cursor: pointer;
+    color: var(--text2);
+    font-family: 'DM Sans', sans-serif;
+    transition: all 0.15s;
+  }
+  .vbtn.active { background: var(--wine); color: white; border-color: var(--wine); }
+
+  /* BADGES */
+  .badge {
+    display: inline-block;
+    font-size: 10px;
+    font-weight: 500;
+    padding: 2px 8px;
+    border-radius: 10px;
+    letter-spacing: 0.04em;
+  }
+  .badge-req { background: var(--green-light); color: var(--green); }
+  .badge-opt { background: var(--gold-light); color: var(--gold); }
+  .badge-white { background: var(--purple-light); color: var(--purple); }
+  .badge-red { background: var(--wine-light); color: var(--wine); }
+
+  /* INFO BOXES */
+  .info-box {
+    border-radius: var(--radius-sm);
+    padding: 12px 16px;
+    font-size: 13px;
+    line-height: 1.65;
+    margin-top: 0.75rem;
+  }
+  .info-box.purple { background: var(--purple-light); color: var(--purple); }
+  .info-box.gold { background: var(--gold-light); color: #7a5a10; }
+  .info-box.green { background: var(--green-light); color: var(--green); }
+  .info-box.wine { background: var(--wine-light); color: var(--wine); }
+  .warn-text { font-size: 11px; color: #b91c1c; margin-top: 5px; }
+
+  /* STEPS / TIMELINE */
+  .steps { position: relative; }
+  .step {
+    display: flex;
+    gap: 1rem;
+    margin-bottom: 1.5rem;
+    position: relative;
+  }
+  .step-line {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    flex-shrink: 0;
+  }
+  .step-dot {
+    width: 10px; height: 10px;
+    border-radius: 50%;
+    background: var(--wine);
+    margin-top: 4px;
+    flex-shrink: 0;
+  }
+  .step-connector {
+    flex: 1;
+    width: 1px;
+    background: var(--border);
+    margin: 4px 0;
+    min-height: 20px;
+  }
+  .step-content { flex: 1; }
+  .step-title { font-size: 14px; font-weight: 500; margin-bottom: 2px; color: var(--text); }
+  .step-timing { font-size: 11px; color: var(--wine-mid); margin-bottom: 6px; font-weight: 500; }
+  .step-body { font-size: 13px; color: var(--text2); line-height: 1.65; }
+
+  /* ADDITIVE ROWS */
+  .additive-row {
+    padding: 14px 0;
+    border-bottom: 1px solid var(--border);
+  }
+  .additive-row:last-child { border-bottom: none; }
+  .additive-header { display: flex; align-items: center; gap: 8px; margin-bottom: 4px; flex-wrap: wrap; }
+  .additive-name { font-size: 14px; font-weight: 500; color: var(--text); }
+  .additive-dose { font-size: 12px; color: var(--text3); margin-bottom: 4px; font-family: 'DM Mono', monospace; }
+  .additive-why { font-size: 13px; color: var(--text2); line-height: 1.6; }
+
+  /* CLARITY CHECKLIST */
+  .check-item {
+    display: flex;
+    gap: 10px;
+    padding: 8px 0;
+    border-bottom: 1px solid var(--border);
+    font-size: 13px;
+    color: var(--text2);
+    align-items: flex-start;
+  }
+  .check-item:last-child { border-bottom: none; }
+  .check-icon { color: var(--green); font-weight: 500; font-size: 15px; flex-shrink: 0; margin-top: 1px; }
+
+  /* BATCH LOG */
+  .log-form { display: grid; grid-template-columns: 1fr 1fr; gap: 12px; margin-bottom: 1rem; }
+  .log-form input, .log-form select, .log-form textarea {
+    border: 1px solid var(--border2);
+    border-radius: var(--radius-sm);
+    padding: 8px 12px;
+    font-size: 13px;
+    font-family: 'DM Sans', sans-serif;
+    background: var(--surface);
+    color: var(--text);
+    width: 100%;
+  }
+  .log-form textarea { grid-column: 1/-1; resize: vertical; min-height: 70px; }
+  .log-form .full { grid-column: 1/-1; }
+  .btn {
+    padding: 10px 20px;
+    border-radius: var(--radius-sm);
+    font-family: 'DM Sans', sans-serif;
+    font-size: 13px;
+    font-weight: 500;
+    cursor: pointer;
+    border: 1px solid var(--border2);
+    background: var(--wine);
+    color: white;
+    transition: opacity 0.15s;
+  }
+  .btn:hover { opacity: 0.85; }
+  .btn-outline { background: var(--surface); color: var(--wine); border-color: var(--wine); }
+  .log-entry {
+    border: 1px solid var(--border);
+    border-radius: var(--radius-sm);
+    padding: 1rem;
+    margin-bottom: 10px;
+    position: relative;
+  }
+  .log-entry-header { display: flex; justify-content: space-between; align-items: flex-start; margin-bottom: 6px; }
+  .log-entry-title { font-size: 14px; font-weight: 500; }
+  .log-entry-date { font-size: 11px; color: var(--text3); }
+  .log-entry-body { font-size: 13px; color: var(--text2); }
+  .log-delete { background: none; border: none; color: var(--text3); cursor: pointer; font-size: 16px; padding: 0 4px; }
+  .log-delete:hover { color: var(--wine); }
+
+  /* TIMELINE VISUAL */
+  .timeline-visual {
+    display: flex;
+    align-items: flex-start;
+    gap: 0;
+    margin: 1.5rem 0;
+    overflow-x: auto;
+    padding-bottom: 0.5rem;
+  }
+  .tl-phase {
+    flex: 1;
+    min-width: 100px;
+    text-align: center;
+    position: relative;
+  }
+  .tl-bar {
+    height: 28px;
+    border-radius: 4px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 10px;
+    font-weight: 500;
+    color: white;
+    margin-bottom: 6px;
+    position: relative;
+  }
+  .tl-label { font-size: 10px; color: var(--text3); }
+  .tl-days { font-size: 11px; font-weight: 500; color: var(--text2); margin-top: 2px; }
+  .print-btn { float: right; }
+
+  /* PRINT */
+  @media print {
+    header { background: var(--wine) !important; -webkit-print-color-adjust: exact; print-color-adjust: exact; }
+    nav { display: none; }
+    .panel { display: block !important; page-break-before: always; }
+    .panel:first-of-type { page-break-before: avoid; }
+    .btn, .print-btn { display: none; }
+    .log-delete { display: none; }
+  }
+
+  @media (max-width: 600px) {
+    .header-title { font-size: 2rem; }
+    .log-form { grid-template-columns: 1fr; }
+    .log-form .full { grid-column: 1; }
+    .slider-row label { min-width: 110px; }
+  }
+</style>
+</head>
+<body>
+
+<header>
+  <div class="header-eyebrow">1-gallon · WinExpert concentrate</div>
+  <div class="header-title">Home Winemaker<br>Companion</div>
+  <div class="header-sub">Your complete guide from must to bottle</div>
+  <div class="variety-pills">
+    <span class="vpill">Chardonnay</span>
+    <span class="vpill">Sauvignon Blanc</span>
+    <span class="vpill">Pinot Grigio</span>
+    <span class="vpill">Pinot Noir</span>
+  </div>
+</header>
+
+<nav>
+  <button class="nav-btn active" onclick="showTab('calc', this)">Calculator</button>
+  <button class="nav-btn" onclick="showTab('timeline', this)">Timeline</button>
+  <button class="nav-btn" onclick="showTab('white', this)">White Wine Guide</button>
+  <button class="nav-btn" onclick="showTab('grigio', this)">Pinot Grigio Guide</button>
+  <button class="nav-btn" onclick="showTab('red', this)">Red Wine Guide</button>
+  <button class="nav-btn" onclick="showTab('clarity', this)">Clarity & Color</button>
+  <button class="nav-btn" onclick="showTab('log', this)">Batch Log</button>
+</nav>
+
+<main>
+
+<!-- CALCULATOR -->
+<div id="tab-calc" class="panel active">
+  <div class="card">
+    <div class="section-eyebrow">Gravity & ABV calculator</div>
+    <div class="slider-row">
+      <label>Initial gravity (OG)</label>
+      <input type="range" id="ogSlider" min="1.070" max="1.130" step="0.001" value="1.089" oninput="calcAll()">
+      <span class="val" id="ogVal">1.089</span>
+    </div>
+    <div class="slider-row">
+      <label>Final gravity (FG)</label>
+      <input type="range" id="fgSlider" min="0.990" max="1.015" step="0.001" value="0.995" oninput="calcAll()">
+      <span class="val" id="fgVal">0.995</span>
+    </div>
+    <div class="slider-row">
+      <label>Batch size</label>
+      <input type="number" id="batchSize" value="1" min="0.5" max="20" step="0.5" oninput="calcAll()">
+      <span class="val">gallon(s)</span>
+    </div>
+  </div>
+
+  <div class="metric-grid">
+    <div class="metric"><div class="metric-label">ABV</div><div class="metric-val" id="m-abv">—<span>%</span></div></div>
+    <div class="metric"><div class="metric-label">Potential alcohol (OG)</div><div class="metric-val" id="m-pa">—<span>%</span></div></div>
+    <div class="metric"><div class="metric-label">Brix (OG)</div><div class="metric-val" id="m-brix">—<span>°Bx</span></div></div>
+    <div class="metric"><div class="metric-label">Sugar fermented</div><div class="metric-val" id="m-sugar">—<span>g/gal</span></div></div>
+  </div>
+
+  <div class="card">
+    <div class="section-eyebrow">pH & TA targets by variety</div>
+    <div class="variety-btns">
+      <button class="vbtn active" onclick="setVariety('chard', this)">Chardonnay</button>
+      <button class="vbtn" onclick="setVariety('sauv', this)">Sauvignon Blanc</button>
+      <button class="vbtn" onclick="setVariety('grigio', this)">Pinot Grigio</button>
+      <button class="vbtn" onclick="setVariety('pinot', this)">Pinot Noir</button>
+    </div>
+    <div class="metric-grid">
+      <div class="metric"><div class="metric-label">Target pH</div><div class="metric-val" id="v-ph" style="font-size:1.2rem;">—</div></div>
+      <div class="metric"><div class="metric-label">Target TA</div><div class="metric-val" id="v-ta" style="font-size:1.2rem;">—<span>g/L</span></div></div>
+      <div class="metric"><div class="metric-label">Type</div><div class="metric-val" id="v-type" style="font-size:1rem;">—</div></div>
+      <div class="metric"><div class="metric-label">Style</div><div class="metric-val" id="v-style" style="font-size:1rem;">—</div></div>
+    </div>
+    <div id="v-note" class="info-box purple"></div>
+  </div>
+
+  <div class="card">
+    <div class="section-eyebrow">Sugar addition calculator (chaptalization)</div>
+    <div class="slider-row">
+      <label>Current Brix</label>
+      <input type="number" id="curBrix" value="22" min="10" max="35" step="0.5" oninput="calcSugar()">
+    </div>
+    <div class="slider-row">
+      <label>Target Brix</label>
+      <input type="number" id="tgtBrix" value="24" min="10" max="35" step="0.5" oninput="calcSugar()">
+    </div>
+    <div id="sugarResult" class="info-box gold"></div>
+  </div>
+
+  <div class="card">
+    <div class="section-eyebrow">Temperature correction (hydrometer)</div>
+    <div class="slider-row">
+      <label>Measured SG</label>
+      <input type="number" id="sgMeasured" value="1.089" min="0.990" max="1.150" step="0.001" oninput="calcTempCorr()">
+    </div>
+    <div class="slider-row">
+      <label>Must temperature (°F)</label>
+      <input type="number" id="mustTemp" value="68" min="40" max="100" step="1" oninput="calcTempCorr()">
+    </div>
+    <div id="tempResult" class="info-box green"></div>
+  </div>
+</div>
+
+<!-- TIMELINE -->
+<div id="tab-timeline" class="panel">
+  <div class="card">
+    <div class="section-eyebrow">Process overview — 1 gallon WinExpert concentrate</div>
+    <div class="card-title">From juice to bottle</div>
+    <div class="timeline-visual" id="tlVisual"></div>
+    <div id="tlDetails"></div>
+  </div>
+
+  <div class="card">
+    <div class="section-eyebrow">White vs red comparison</div>
+    <table style="width:100%;border-collapse:collapse;font-size:13px;">
+      <thead>
+        <tr style="border-bottom:1px solid var(--border);">
+          <th style="text-align:left;padding:8px 0;color:var(--text3);font-weight:500;">Phase</th>
+          <th style="text-align:center;padding:8px;color:var(--purple);font-weight:500;">White wine</th>
+          <th style="text-align:center;padding:8px;color:var(--wine);font-weight:500;">Red wine</th>
+        </tr>
+      </thead>
+      <tbody id="tlTable"></tbody>
+    </table>
+  </div>
+</div>
+
+<!-- WHITE WINE GUIDE -->
+<div id="tab-white" class="panel">
+  <div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:1.25rem;flex-wrap:wrap;gap:8px;">
+    <div>
+      <span class="badge badge-white" style="font-size:12px;padding:4px 12px;">Chardonnay &amp; Sauvignon Blanc</span>
+    </div>
+    <button class="btn btn-outline print-btn" onclick="window.print()">Print guide</button>
+  </div>
+
+  <!-- Step 1 -->
+  <div class="card">
+    <div class="section-eyebrow">Step 1 — Pre-fermentation</div>
+    <div class="card-title">Day 0: Must preparation</div>
+    <div class="step">
+      <div class="step-line"><div class="step-dot"></div><div class="step-connector"></div></div>
+      <div class="step-content">
+        <div class="step-title">Sanitize everything</div>
+        <div class="step-timing">Day 0, before anything else</div>
+        <div class="step-body">Use potassium metabisulfite solution (1 tsp per gallon of water) to sanitize fermenter, airlock, spoon, hydrometer. Let air dry — no rinsing needed.</div>
+      </div>
+    </div>
+    <div class="step">
+      <div class="step-line"><div class="step-dot"></div><div class="step-connector"></div></div>
+      <div class="step-content">
+        <div class="step-title">Prepare the must</div>
+        <div class="step-timing">Day 0</div>
+        <div class="step-body">Add juice concentrate to fermenter, top with water to 1 gallon. Stir thoroughly. Measure OG with hydrometer — should be ~1.089 (22.3°Bx). Target temperature: 65–70°F.</div>
+      </div>
+    </div>
+
+    <div class="section-eyebrow" style="margin-top:1rem;">Additives — Day 0</div>
+
+    <div class="additive-row">
+      <div class="additive-header"><span class="additive-name">Potassium metabisulfite (KMBS)</span><span class="badge badge-req">required</span></div>
+      <div class="additive-dose">¼ tsp per gallon (≈ 1.5g) dissolved in 50ml water — stir into must</div>
+      <div class="additive-why">Kills wild yeast and bacteria. Prevents oxidation at the most vulnerable moment. Essential first step. Wait 24h before pitching yeast.</div>
+      <div class="warn-text">⚠ Never add yeast within 12–24h of KMBS addition</div>
+    </div>
+    <div class="additive-row">
+      <div class="additive-header"><span class="additive-name">Pectic enzyme</span><span class="badge badge-req">required</span></div>
+      <div class="additive-dose">½ tsp per gallon — add simultaneously with KMBS or 1h after</div>
+      <div class="additive-why">Breaks down pectin from concentrate. This is the single most important step for white wine clarity and preventing dark yellow color. Without it, pectin stays in solution as a golden-brown haze.</div>
+    </div>
+    <div class="additive-row">
+      <div class="additive-header"><span class="additive-name">Bentonite (pre-hydrated)</span><span class="badge badge-opt">optional — highly recommended</span></div>
+      <div class="additive-dose">½ tsp per gallon — pre-hydrate in 50ml warm water for 30 min, then stir in</div>
+      <div class="additive-why">Early protein crash. Removes proteins that bind with phenolics to create golden-brown haze. Key fix if your Pinot Grigio came out too dark — add this at must prep, not just post-fermentation.</div>
+    </div>
+    <div class="info-box gold">
+      <strong>Sauvignon Blanc tip:</strong> Keep this variety under 68°F through fermentation for maximum aromatics (citrus, passionfruit). Add a cold crash at 38°F for 1 week before bottling for brilliant clarity.
+    </div>
+  </div>
+
+  <!-- Step 2 -->
+  <div class="card">
+    <div class="section-eyebrow">Step 2 — Primary fermentation</div>
+    <div class="card-title">Days 1–7: Active fermentation</div>
+    <div class="step">
+      <div class="step-line"><div class="step-dot"></div><div class="step-connector"></div></div>
+      <div class="step-content">
+        <div class="step-title">Rehydrate and pitch yeast</div>
+        <div class="step-timing">Day 1 — 24h after KMBS</div>
+        <div class="step-body">Dissolve Go-Ferm in 50ml water at 104°F. Add dry yeast, stir gently. Wait 20 min. Slowly add small amounts of must to cool the slurry to within 10°F of must temperature. Pitch into fermenter. Attach airlock.</div>
+      </div>
+    </div>
+    <div class="step">
+      <div class="step-line"><div class="step-dot"></div><div class="step-connector"></div></div>
+      <div class="step-content">
+        <div class="step-title">Monitor fermentation</div>
+        <div class="step-timing">Days 2–7 · target 65–72°F</div>
+        <div class="step-body">Airlock should bubble actively within 24–48h. Check gravity every 2 days. Add nutrients in 2 stages. Do not open fermenter unnecessarily — minimize O₂ for whites.</div>
+      </div>
+    </div>
+
+    <div class="section-eyebrow" style="margin-top:1rem;">Additives — During primary</div>
+    <div class="additive-row">
+      <div class="additive-header"><span class="additive-name">Go-Ferm</span><span class="badge badge-req">required (at pitch)</span></div>
+      <div class="additive-dose">1.25g per gram of yeast — dissolve in 50ml water at 104°F, rehydrate yeast in it</div>
+      <div class="additive-why">Yeast rehydration protectant. Packs yeast cells with nutrients before they face the sugar-rich must. Healthier yeast = cleaner ferment, fewer off-flavors, zero H₂S risk.</div>
+      <div class="warn-text">⚠ Use in water only — never add Go-Ferm directly to the must</div>
+    </div>
+    <div class="additive-row">
+      <div class="additive-header"><span class="additive-name">Fermaid-O (organic YAN)</span><span class="badge badge-req">required</span></div>
+      <div class="additive-dose">Split into 2 doses: 0.2g/gal at 24h after pitch · 0.2g/gal when SG reaches ~1.055</div>
+      <div class="additive-why">Provides nitrogen yeast need to reproduce and ferment cleanly. Staged addition is safer than one large dose. Prevents stuck fermentation and sulfur odors.</div>
+      <div class="warn-text">⚠ Do not add DAP after 1/3 sugar depletion (SG ~1.055) — produces fusel alcohols</div>
+    </div>
+  </div>
+
+  <!-- Step 3 -->
+  <div class="card">
+    <div class="section-eyebrow">Step 3 — Secondary fermentation</div>
+    <div class="card-title">Days 7–21: Finish and clean up</div>
+    <div class="step">
+      <div class="step-line"><div class="step-dot"></div><div class="step-connector"></div></div>
+      <div class="step-content">
+        <div class="step-title">Rack to secondary</div>
+        <div class="step-timing">Day 7–10 · when SG reaches 1.010–1.020</div>
+        <div class="step-body">Siphon carefully off gross lees into a clean carboy. Minimize splashing — whites are highly oxygen-sensitive. Add KMBS (¼ tsp/gal dissolved in water). Attach airlock. Cool to 60–65°F.</div>
+      </div>
+    </div>
+    <div class="step">
+      <div class="step-line"><div class="step-dot"></div></div>
+      <div class="step-content">
+        <div class="step-title">Complete fermentation</div>
+        <div class="step-timing">Days 10–21 · FG target 0.992–0.998</div>
+        <div class="step-body">Bubbling slows and stops. Confirm stable FG over 3 consecutive days. White wines do NOT undergo MLF — this preserves their fresh, citrusy acidity. Chardonnay exception: optional MLF for buttery style.</div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Step 4 -->
+  <div class="card">
+    <div class="section-eyebrow">Step 4 — Clearing & aging</div>
+    <div class="card-title">Weeks 3–8: Fining and stability</div>
+    <div class="additive-row">
+      <div class="additive-header"><span class="additive-name">Kieselsol + Chitosan (dual-phase fining)</span><span class="badge badge-req">required</span></div>
+      <div class="additive-dose">Kieselsol: 1ml/gallon → wait 1h → Chitosan: 5ml/gallon</div>
+      <div class="additive-why">Best fining combo for white wines. Kieselsol (negatively charged silica) attracts proteins; Chitosan (positively charged) attracts yeast and tannins. Both fall as sediment together. Crystal-clear result in 1–2 weeks.</div>
+    </div>
+    <div class="additive-row">
+      <div class="additive-header"><span class="additive-name">Isinglass</span><span class="badge badge-opt">optional (if still hazy)</span></div>
+      <div class="additive-dose">0.5–1g/gallon pre-dissolved in warm water</div>
+      <div class="additive-why">Fish-derived protein fining. Extremely gentle on flavor — ideal for delicate whites. Use only if kieselsol+chitosan alone isn't achieving the desired clarity.</div>
+    </div>
+    <div class="additive-row">
+      <div class="additive-header"><span class="additive-name">Cold crash</span><span class="badge badge-opt">highly recommended</span></div>
+      <div class="additive-dose">Chill to 38–45°F for 5–7 days before bottling</div>
+      <div class="additive-why">Precipitates tartrate crystals and drops remaining particles out of suspension. The single best thing you can do for that Sauvignon Blanc-clear color you want.</div>
+    </div>
+  </div>
+
+  <!-- Step 5 -->
+  <div class="card">
+    <div class="section-eyebrow">Step 5 — Bottling</div>
+    <div class="card-title">Weeks 8–12: Final preparation</div>
+    <div class="additive-row">
+      <div class="additive-header"><span class="additive-name">KMBS final dose</span><span class="badge badge-req">required</span></div>
+      <div class="additive-dose">¼ tsp per gallon dissolved in 50ml water — add and stir gently before bottling</div>
+      <div class="additive-why">Antioxidant protection in the bottle. Extends shelf life and preserves the fresh fruit character that makes whites so enjoyable. Without this, whites can turn golden-brown in the bottle within months.</div>
+    </div>
+    <div class="additive-row">
+      <div class="additive-header"><span class="additive-name">Ascorbic acid (vitamin C)</span><span class="badge badge-opt">optional</span></div>
+      <div class="additive-dose">¼ tsp per gallon at bottling — mix with KMBS</div>
+      <div class="additive-why">Secondary antioxidant. Works with KMBS to donate electrons and prevent oxidative browning. Especially helpful for Sauvignon Blanc and for wines that had any oxygen exposure.</div>
+    </div>
+    <div class="info-box green">
+      <strong>Ready to drink:</strong> Chardonnay 3–6 months, improves to 12 months. Sauvignon Blanc best fresh — drink within 6–9 months for peak vibrancy. Store on side at 55–60°F.
+    </div>
+  </div>
+</div>
+
+<!-- PINOT GRIGIO GUIDE -->
+<div id="tab-grigio" class="panel">
+  <div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:1.25rem;flex-wrap:wrap;gap:8px;">
+    <div>
+      <span class="badge badge-white" style="font-size:12px;padding:4px 12px;">Pinot Grigio — dry white</span>
+      <span style="font-size:12px;color:var(--text3);margin-left:8px;">Your clarity challenge variety</span>
+    </div>
+    <button class="btn btn-outline print-btn" onclick="window.print()">Print guide</button>
+  </div>
+
+  <!-- Step 1 -->
+  <div class="card">
+    <div class="section-eyebrow">Step 1 — Pre-fermentation</div>
+    <div class="card-title">Day 0: Must preparation</div>
+    <div class="step">
+      <div class="step-line"><div class="step-dot"></div><div class="step-connector"></div></div>
+      <div class="step-content">
+        <div class="step-title">Sanitize everything</div>
+        <div class="step-timing">Day 0, before anything else</div>
+        <div class="step-body">Use potassium metabisulfite solution (1 tsp per gallon of water) to sanitize fermenter, airlock, spoon, hydrometer. Let air dry — no rinsing needed.</div>
+      </div>
+    </div>
+    <div class="step">
+      <div class="step-line"><div class="step-dot"></div><div class="step-connector"></div></div>
+      <div class="step-content">
+        <div class="step-title">Prepare the must</div>
+        <div class="step-timing">Day 0</div>
+        <div class="step-body">Add concentrate to fermenter, top with water to 1 gallon. Stir thoroughly. Measure OG (~1.089 = 22.3°Bx). Target temperature: 58–65°F. Pinot Grigio needs the coolest ferment of all your whites — this is the #1 factor for pale straw color and crisp finish.</div>
+      </div>
+    </div>
+
+    <div class="section-eyebrow" style="margin-top:1rem;">Additives — Day 0 (clarity is everything here)</div>
+
+    <div class="additive-row">
+      <div class="additive-header"><span class="additive-name">Potassium metabisulfite (KMBS)</span><span class="badge badge-req">required</span></div>
+      <div class="additive-dose">¼ tsp per gallon (≈ 1.5g) dissolved in 50ml water — stir into must</div>
+      <div class="additive-why">Kills wild yeast and bacteria. Prevents oxidation — critical for Pinot Grigio which is highly prone to browning. Wait 24h before pitching yeast.</div>
+      <div class="warn-text">⚠ Never add yeast within 12–24h of KMBS addition</div>
+    </div>
+    <div class="additive-row">
+      <div class="additive-header"><span class="additive-name">Pectic enzyme</span><span class="badge badge-req">required — do not skip</span></div>
+      <div class="additive-dose">½ tsp per gallon — add simultaneously with KMBS or 1h after</div>
+      <div class="additive-why">This is the most likely reason your last Pinot Grigio turned dark yellow. Pectic enzyme breaks down pectin from the concentrate — without it, pectin forms a persistent golden-brown haze that no amount of fining will fully remove. Non-negotiable for this variety.</div>
+    </div>
+    <div class="additive-row">
+      <div class="additive-header"><span class="additive-name">Bentonite (pre-hydrated)</span><span class="badge badge-req">required for Pinot Grigio</span></div>
+      <div class="additive-dose">½ tsp per gallon — pre-hydrate in 50ml warm water 30 min before adding</div>
+      <div class="additive-why">Early protein crash is essential for Pinot Grigio's signature pale color. Proteins in concentrate bind with phenolics and create golden-brown haze within days of fermentation. Adding bentonite at Day 0 prevents this — unlike post-fermentation fining which only partially corrects it.</div>
+    </div>
+    <div class="additive-row">
+      <div class="additive-header"><span class="additive-name">Ascorbic acid (vitamin C)</span><span class="badge badge-opt">optional — strongly recommended</span></div>
+      <div class="additive-dose">¼ tsp per gallon at must prep — dissolve in water first</div>
+      <div class="additive-why">Antioxidant that prevents browning of phenolic compounds during fermentation. Especially valuable for Pinot Grigio — works with KMBS to keep the must pale. Also repeat at bottling.</div>
+    </div>
+    <div class="info-box gold">
+      <strong>Pinot Grigio clarity secret:</strong> The combination of pectic enzyme + bentonite + cool temperature (58–65°F) at Day 0 is what produces that crystal-clear pale straw color. Missing any one of these three is enough to cause a dark yellow result.
+    </div>
+  </div>
+
+  <!-- Step 2 -->
+  <div class="card">
+    <div class="section-eyebrow">Step 2 — Primary fermentation</div>
+    <div class="card-title">Days 1–7: Cool, slow, clean</div>
+    <div class="step">
+      <div class="step-line"><div class="step-dot"></div><div class="step-connector"></div></div>
+      <div class="step-content">
+        <div class="step-title">Rehydrate and pitch yeast</div>
+        <div class="step-timing">Day 1 — 24h after KMBS</div>
+        <div class="step-body">Best yeasts for Pinot Grigio: Lalvin ICV-D47 (floral, citrus, low temperature tolerant — ideal), Lalvin QA23 (tropical fruit, excellent clarifier), or Lalvin 71B (smooth, fruity). Rehydrate in Go-Ferm at 104°F, cool slowly to within 10°F of must before pitching. Attach airlock.</div>
+      </div>
+    </div>
+    <div class="step">
+      <div class="step-line"><div class="step-dot"></div><div class="step-connector"></div></div>
+      <div class="step-content">
+        <div class="step-title">Maintain cool fermentation</div>
+        <div class="step-timing">Days 2–7 · target 58–65°F strictly</div>
+        <div class="step-body">Pinot Grigio is the most temperature-sensitive of your white varieties. Even 5°F too warm causes browning and aroma loss. Use a cool room, basement, or fermenter wrap with ice packs. Check gravity every 2 days. Do not stir or open unnecessarily.</div>
+      </div>
+    </div>
+
+    <div class="section-eyebrow" style="margin-top:1rem;">Additives — During primary</div>
+    <div class="additive-row">
+      <div class="additive-header"><span class="additive-name">Go-Ferm</span><span class="badge badge-req">required (at pitch)</span></div>
+      <div class="additive-dose">1.25g per gram of yeast — dissolve in 50ml water at 104°F, rehydrate yeast in it</div>
+      <div class="additive-why">Especially important for cool fermentations — Go-Ferm ensures yeast are robust enough to ferment cleanly at 58–65°F without stalling. Unhealthy yeast at low temperatures = stuck fermentation.</div>
+      <div class="warn-text">⚠ Use in water only — never add directly to must</div>
+    </div>
+    <div class="additive-row">
+      <div class="additive-header"><span class="additive-name">Fermaid-O (organic YAN)</span><span class="badge badge-req">required</span></div>
+      <div class="additive-dose">Split into 2 doses: 0.2g/gal at 24h after pitch · 0.2g/gal when SG reaches ~1.055</div>
+      <div class="additive-why">Cool fermentations deplete YAN faster — staged Fermaid-O additions are critical to prevent H₂S (rotten egg) off-odors, which are more common at lower temperatures with stressed yeast.</div>
+      <div class="warn-text">⚠ Do not add DAP after SG ~1.055 — fusel alcohol risk</div>
+    </div>
+  </div>
+
+  <!-- Step 3 -->
+  <div class="card">
+    <div class="section-eyebrow">Step 3 — Secondary fermentation</div>
+    <div class="card-title">Days 7–21: Finish dry and protect</div>
+    <div class="step">
+      <div class="step-line"><div class="step-dot"></div><div class="step-connector"></div></div>
+      <div class="step-content">
+        <div class="step-title">Rack to secondary — carefully</div>
+        <div class="step-timing">Day 7–10 · when SG reaches 1.010–1.020</div>
+        <div class="step-body">Siphon very carefully off gross lees. Pinot Grigio is more oxidation-prone than Chardonnay or Sauvignon Blanc — absolutely no splashing. Use a racking cane that reaches the bottom of the receiving vessel to minimize air contact. Add KMBS immediately (¼ tsp/gal dissolved in water). Maintain 58–65°F.</div>
+      </div>
+    </div>
+    <div class="step">
+      <div class="step-line"><div class="step-dot"></div></div>
+      <div class="step-content">
+        <div class="step-title">Complete fermentation dry</div>
+        <div class="step-timing">Days 10–21 · FG target 0.990–0.996</div>
+        <div class="step-body">Pinot Grigio is best fully dry — residual sugar dulls its crisp mineral character. Confirm stable FG over 3 consecutive days. Never do MLF — it destroys the fresh acidity and pale color that define this variety.</div>
+      </div>
+    </div>
+    <div class="info-box wine">
+      <strong>No MLF for Pinot Grigio.</strong> Malolactic fermentation converts crisp malic acid to soft lactic acid and can deepen color. For Pinot Grigio, this ruins both the flavor profile (flat, heavy) and the pale color you're targeting.
+    </div>
+  </div>
+
+  <!-- Step 4 -->
+  <div class="card">
+    <div class="section-eyebrow">Step 4 — Clearing & cold crash</div>
+    <div class="card-title">Weeks 3–8: The clarity phase</div>
+    <div class="step">
+      <div class="step-line"><div class="step-dot"></div><div class="step-connector"></div></div>
+      <div class="step-content">
+        <div class="step-title">Fining agents</div>
+        <div class="step-timing">Week 3–4 · after FG is stable</div>
+        <div class="step-body">Apply in sequence. Wait 48h minimum between each addition.</div>
+      </div>
+    </div>
+    <div class="additive-row">
+      <div class="additive-header"><span class="additive-name">Kieselsol + Chitosan</span><span class="badge badge-req">required</span></div>
+      <div class="additive-dose">Kieselsol: 1ml/gallon → wait 1h → Chitosan: 5ml/gallon</div>
+      <div class="additive-why">The best fining combo for Pinot Grigio. Kieselsol (negatively charged silica) and Chitosan (positively charged) attract and drop all remaining particles as sediment. Produces brilliant clarity in 1–2 weeks without stripping the delicate mineral character.</div>
+    </div>
+    <div class="additive-row">
+      <div class="additive-header"><span class="additive-name">Isinglass</span><span class="badge badge-opt">optional — use if still hazy</span></div>
+      <div class="additive-dose">0.5g/gallon pre-dissolved in warm water — add 48h after Chitosan if needed</div>
+      <div class="additive-why">Fish-derived protein fining. Very gentle on delicate white wine flavor. Use only if kieselsol+chitosan didn't fully clear the wine — over-fining strips flavor.</div>
+    </div>
+    <div class="additive-row">
+      <div class="additive-header"><span class="additive-name">Cold crash</span><span class="badge badge-req">essential for Pinot Grigio</span></div>
+      <div class="additive-dose">Chill to 32–38°F for 7–10 days before bottling</div>
+      <div class="additive-why">More aggressive cold crash than other whites. Precipitates tartrate crystals, drops any remaining protein haze, and locks in the pale color. This step transforms a hazy golden wine into the crystal-clear pale straw Pinot Grigio you want. Do not skip.</div>
+    </div>
+  </div>
+
+  <!-- Step 5 -->
+  <div class="card">
+    <div class="section-eyebrow">Step 5 — Bottling</div>
+    <div class="card-title">Weeks 8–12: Into the bottle</div>
+    <div class="additive-row">
+      <div class="additive-header"><span class="additive-name">KMBS final dose</span><span class="badge badge-req">required</span></div>
+      <div class="additive-dose">¼ tsp per gallon dissolved in 50ml water — add and stir gently 24h before bottling</div>
+      <div class="additive-why">Antioxidant protection in the bottle. Critical for Pinot Grigio — without this, even a crystal-clear pale wine will turn golden-yellow in the bottle within 3–6 months.</div>
+    </div>
+    <div class="additive-row">
+      <div class="additive-header"><span class="additive-name">Ascorbic acid (vitamin C)</span><span class="badge badge-req">required for Pinot Grigio</span></div>
+      <div class="additive-dose">¼ tsp per gallon — dissolve and add with KMBS before bottling</div>
+      <div class="additive-why">Second antioxidant layer. Works synergistically with KMBS. Especially important for Pinot Grigio because this variety is prone to oxidative browning in the bottle. This combination is your best insurance for long-term pale color.</div>
+    </div>
+    <div class="info-box green">
+      <strong>Drinking window:</strong> Pinot Grigio is best young and fresh — drink within 6–12 months of bottling. Unlike Chardonnay, it does not benefit from extended aging. Serve cold (45–50°F) for maximum crispness and pale color appearance.
+    </div>
+    <div class="info-box purple" style="margin-top:0.75rem;">
+      <strong>Your next batch goal:</strong> With pectic enzyme + bentonite at Day 0, ferment at 58–65°F, cold crash at 32–38°F, and KMBS + ascorbic acid at bottling — your Pinot Grigio should come out pale straw to nearly water-white, matching that Sauvignon Blanc clarity you're aiming for.
+    </div>
+  </div>
+</div>
+
+<!-- RED WINE GUIDE -->
+<div id="tab-red" class="panel">
+  <div style="margin-bottom:1.25rem;">
+    <span class="badge badge-red" style="font-size:12px;padding:4px 12px;">Pinot Noir — dry red</span>
+  </div>
+
+  <div class="card">
+    <div class="section-eyebrow">Step 1 — Pre-fermentation</div>
+    <div class="card-title">Day 0: Must preparation</div>
+    <div class="step">
+      <div class="step-line"><div class="step-dot"></div><div class="step-connector"></div></div>
+      <div class="step-content">
+        <div class="step-title">Sanitize and prepare the must</div>
+        <div class="step-timing">Day 0</div>
+        <div class="step-body">Sanitize all equipment. Rehydrate concentrate, top to 1 gallon. Measure OG (~1.089). Reds ferment slightly warmer than whites: target 68–75°F. This helps with color and tannin extraction.</div>
+      </div>
+    </div>
+
+    <div class="section-eyebrow" style="margin-top:1rem;">Additives — Day 0</div>
+    <div class="additive-row">
+      <div class="additive-header"><span class="additive-name">Potassium metabisulfite (KMBS)</span><span class="badge badge-req">required</span></div>
+      <div class="additive-dose">¼ tsp per gallon dissolved in water · wait 24h before yeast</div>
+      <div class="additive-why">Same as whites — essential protection at crush. Non-negotiable for all wines regardless of style.</div>
+    </div>
+    <div class="additive-row">
+      <div class="additive-header"><span class="additive-name">Opti-Red (Booster Rouge)</span><span class="badge badge-opt">optional — highly recommended</span></div>
+      <div class="additive-dose">½ tsp per gallon — add to must at Day 0</div>
+      <div class="additive-why">Grape-derived tannin and polysaccharide blend. Enhances color stability, mouthfeel, and body. Critical for 1-gallon concentrate batches where you can't do extended maceration with real grape skins.</div>
+    </div>
+    <div class="additive-row">
+      <div class="additive-header"><span class="additive-name">Grape tannins (FT Rouge / Tannin Complex)</span><span class="badge badge-opt">optional</span></div>
+      <div class="additive-dose">¼ tsp per gallon dissolved in small amount of warm water</div>
+      <div class="additive-why">Pinot Noir is naturally low in tannin — lowest of all reds. Adding grape tannins compensates for the lack of skin contact in concentrate wine, adding structure and aging potential.</div>
+    </div>
+  </div>
+
+  <div class="card">
+    <div class="section-eyebrow">Step 2 — Primary fermentation</div>
+    <div class="card-title">Days 1–10: Active fermentation</div>
+    <div class="step">
+      <div class="step-line"><div class="step-dot"></div><div class="step-connector"></div></div>
+      <div class="step-content">
+        <div class="step-title">Pitch yeast</div>
+        <div class="step-timing">Day 1 — 24h after KMBS</div>
+        <div class="step-body">Best yeasts for Pinot Noir concentrate: Lalvin RC-212 (Burgundy character, spice, cherry) or Lalvin D254 (silky mouthfeel). Rehydrate in Go-Ferm at 104°F, cool to within 10°F of must, pitch. Ferment at 68–75°F.</div>
+      </div>
+    </div>
+    <div class="step">
+      <div class="step-line"><div class="step-dot"></div><div class="step-connector"></div></div>
+      <div class="step-content">
+        <div class="step-title">Daily gentle stir</div>
+        <div class="step-timing">Days 2–7</div>
+        <div class="step-body">Unlike whites, you can stir reds gently once daily (punchdown equivalent). This integrates any cap, distributes nutrients, and helps with color. Check gravity every 2 days. Target dry (SG 1.000) within 7–10 days.</div>
+      </div>
+    </div>
+
+    <div class="section-eyebrow" style="margin-top:1rem;">Additives — During primary</div>
+    <div class="additive-row">
+      <div class="additive-header"><span class="additive-name">Go-Ferm</span><span class="badge badge-req">required (at pitch)</span></div>
+      <div class="additive-dose">1.25g per gram of yeast in 50ml water at 104°F</div>
+      <div class="additive-why">Healthy yeast start is even more important for reds — better color extraction, fewer off-flavors, clean finish.</div>
+    </div>
+    <div class="additive-row">
+      <div class="additive-header"><span class="additive-name">Fermaid-O + DAP</span><span class="badge badge-req">required</span></div>
+      <div class="additive-dose">Fermaid-O: 0.3g/gal at 24h post-pitch · DAP supplement: 0.2g/gal at 1/3 depletion (SG ~1.055)</div>
+      <div class="additive-why">Staged nitrogen prevents H₂S and stuck fermentation. Fermaid-O provides organic nitrogen (preferred). DAP provides inorganic nitrogen top-up in the early stage only.</div>
+      <div class="warn-text">⚠ No DAP after SG ~1.055 — produces fusel alcohols</div>
+    </div>
+  </div>
+
+  <div class="card">
+    <div class="section-eyebrow">Step 3 — Secondary fermentation & MLF</div>
+    <div class="card-title">Days 7–28: Dry out and soften</div>
+    <div class="step">
+      <div class="step-line"><div class="step-dot"></div><div class="step-connector"></div></div>
+      <div class="step-content">
+        <div class="step-title">Rack to secondary</div>
+        <div class="step-timing">Day 7–10 · SG 1.010–1.020</div>
+        <div class="step-body">Siphon off gross lees. Reds can handle a bit more splash than whites — a small amount of oxygen actually helps integrate tannins. Add light KMBS only (⅛ tsp/gal) — full dose would suppress MLF bacteria.</div>
+      </div>
+    </div>
+    <div class="additive-row">
+      <div class="additive-header"><span class="additive-name">Malolactic culture (MLB)</span><span class="badge badge-opt">optional — strongly recommended</span></div>
+      <div class="additive-dose">1 packet (sufficient for 1–6 gal) — inoculate when SG reaches 1.000–0.998 and temp is 65–72°F</div>
+      <div class="additive-why">Converts sharp malic acid → softer lactic acid. This is what gives Pinot Noir its signature silky, creamy, round mouthfeel. Takes 2–4 weeks. Confirm completion with paper chromatography strip or taste (gone tart edge = done).</div>
+      <div class="warn-text">⚠ Never add potassium sorbate if doing MLF — bacteria convert sorbate to geraniol, a permanent irreversible off-odor</div>
+    </div>
+    <div class="additive-row">
+      <div class="additive-header"><span class="additive-name">Oak chips or spirals</span><span class="badge badge-opt">optional</span></div>
+      <div class="additive-dose">Light French or American oak chips: ½ oz per gallon for 2–4 weeks — taste weekly</div>
+      <div class="additive-why">Adds vanilla, toast, cedar, and spice notes to Pinot Noir. Makes concentrate wine taste barrel-aged. French oak is subtler and more elegant — better match for Pinot's delicate character. Remove when desired flavor is reached.</div>
+    </div>
+  </div>
+
+  <div class="card">
+    <div class="section-eyebrow">Step 4 — Clearing & aging</div>
+    <div class="card-title">Weeks 4–12: Patience pays off</div>
+    <div class="additive-row">
+      <div class="additive-header"><span class="additive-name">Kieselsol + Chitosan (after MLF complete)</span><span class="badge badge-req">required</span></div>
+      <div class="additive-dose">Add full KMBS dose first (¼ tsp/gal). Then: Kieselsol 1ml/gal, wait 1h, Chitosan 5ml/gal</div>
+      <div class="additive-why">Clears reds with minimal stripping of color or tannin. Sediment falls within 1–2 weeks. Only add after MLF is confirmed complete — fining before MLF is done can strip the bacteria.</div>
+    </div>
+    <div class="info-box wine">
+      Rack every 4–6 weeks off lees during aging. Each racking improves clarity and integrates flavors. Check and refresh KMBS every 3 months — maintain 25–35 ppm free SO₂.
+    </div>
+  </div>
+
+  <div class="card">
+    <div class="section-eyebrow">Step 5 — Bottling</div>
+    <div class="card-title">Month 3–6: Into the bottle</div>
+    <div class="additive-row">
+      <div class="additive-header"><span class="additive-name">KMBS final dose</span><span class="badge badge-req">required</span></div>
+      <div class="additive-dose">¼ tsp per gallon dissolved in water — target 25–30 ppm free SO₂</div>
+      <div class="additive-why">Long-term protection in the bottle. Reds need slightly less sulfite than whites because tannins act as natural antioxidants. Still essential for preventing premature aging.</div>
+    </div>
+    <div class="info-box wine">
+      <strong>Drinking window:</strong> Drinkable at 6 months, noticeably better at 12 months, peak at 18–24 months for concentrate Pinot Noir. Store on its side at 55–60°F in a dark place.
+    </div>
+  </div>
+</div>
+
+<!-- CLARITY & COLOR -->
+<div id="tab-clarity" class="panel">
+  <div class="card">
+    <div class="section-eyebrow">Your Pinot Grigio diagnosis</div>
+    <div class="card-title">Why white wines turn dark yellow — and how to fix it</div>
+    <div class="step-body" style="margin-bottom:1.25rem;font-size:13px;color:var(--text2);line-height:1.7;">
+      Dark yellow or amber color in white wine comes from oxidation, pectin haze, protein browning, or warm fermentation. All four are preventable. Here's what likely happened and how to ensure your Chardonnay and Sauvignon Blanc stay crystal clear:
+    </div>
+
+    <div class="additive-row">
+      <div class="additive-header"><span class="additive-name" style="color:var(--wine);">Cause 1: Oxidation during fermentation or racking</span></div>
+      <div class="additive-why">Exposure to oxygen oxidizes phenolic compounds in white juice, turning it amber-brown. Whites are far more sensitive than reds — reds have tannins that buffer oxidation; whites do not.</div>
+      <div class="info-box green" style="margin-top:8px;">Fix: Keep whites under airlock at all times. No splashing during racking. Maintain sulfite at 25–35ppm. Add ascorbic acid at bottling as a second antioxidant layer.</div>
+    </div>
+    <div class="additive-row">
+      <div class="additive-header"><span class="additive-name" style="color:var(--wine);">Cause 2: Missing or insufficient pectic enzyme</span></div>
+      <div class="additive-why">Concentrates are high in pectin. Without pectic enzyme, pectin stays as a protein-polysaccharide complex that scatters light and gives wine a yellow-brown appearance even when technically clear.</div>
+      <div class="info-box green" style="margin-top:8px;">Fix: Always add ½ tsp pectic enzyme per gallon at Day 0 — this is the #1 clarity intervention for concentrate whites.</div>
+    </div>
+    <div class="additive-row">
+      <div class="additive-header"><span class="additive-name" style="color:var(--wine);">Cause 3: Skipping early bentonite</span></div>
+      <div class="additive-why">Proteins in white juice bind with tannins and phenolics over time, creating golden-brown colloidal haze. Once this forms, it is very difficult to remove post-fermentation without over-fining.</div>
+      <div class="info-box green" style="margin-top:8px;">Fix: Add ½ tsp pre-hydrated bentonite at Day 0–1. This early protein crash prevents the haze from forming in the first place.</div>
+    </div>
+    <div class="additive-row">
+      <div class="additive-header"><span class="additive-name" style="color:var(--wine);">Cause 4: Fermentation temperature too warm</span></div>
+      <div class="additive-why">Above 75°F, white wine ferments fast but runs "hot" — browning reactions accelerate, aromatics blow off, and the resulting wine looks and tastes flat and golden rather than bright and pale.</div>
+      <div class="info-box green" style="margin-top:8px;">Fix: Ferment whites at 60–68°F. Slow, cool fermentation = lighter color, more vibrant aromatics, crisper finish.</div>
+    </div>
+  </div>
+
+  <div class="card">
+    <div class="section-eyebrow">Crystal-clear white wine — complete checklist</div>
+    <div class="card-title">Every step that matters for color</div>
+    <div id="clarityChecklist"></div>
+  </div>
+</div>
+
+<!-- BATCH LOG -->
+<div id="tab-log" class="panel">
+  <div class="card">
+    <div class="section-eyebrow">New batch entry</div>
+    <div class="card-title">Log your wine</div>
+    <div class="log-form">
+      <input type="text" id="logVariety" placeholder="Variety (e.g. Pinot Noir)" />
+      <input type="date" id="logDate" />
+      <input type="number" id="logOG" placeholder="OG (e.g. 1.089)" step="0.001" />
+      <input type="number" id="logFG" placeholder="FG (e.g. 0.995)" step="0.001" />
+      <input type="text" id="logYeast" placeholder="Yeast used" />
+      <input type="text" id="logAdditives" placeholder="Additives added" />
+      <textarea id="logNotes" placeholder="Notes, observations, tasting notes..."></textarea>
+    </div>
+    <button class="btn" onclick="saveLog()">Save batch entry</button>
+  </div>
+
+  <div id="logEntries"></div>
+</div>
+
+</main>
+
+<script>
+const varieties = {
+  chard: { ph: '3.2–3.4', ta: '6.0–7.5', type: 'White', style: 'Dry / Oaked', note: 'Chardonnay works well at a moderate acid level. Target pH 3.3 for dry style. Optional MLF during secondary adds buttery, creamy character (skip for crisp style). Ferment at 60–68°F.' },
+  sauv: { ph: '3.1–3.3', ta: '6.5–8.0', type: 'White', style: 'Dry / Crisp', note: 'Sauvignon Blanc needs high acidity for its signature freshness. Target pH 3.1–3.2. Never do MLF — it destroys the herbaceous, citrus character. Cold crash before bottling for Sauvignon-clear color.' },
+  grigio: { ph: '3.1–3.3', ta: '6.0–7.5', type: 'White', style: 'Dry / Light', note: 'Pinot Grigio needs high acidity and a cool ferment (58–65°F) for its hallmark pale straw color and crisp finish. Never do MLF. Pectic enzyme + early bentonite are critical — skipping these caused your dark yellow batch. Cold crash is essential.' },
+  pinot: { ph: '3.4–3.6', ta: '5.5–6.5', type: 'Red', style: 'Dry / Elegant', note: 'Pinot Noir is delicate — lower acid than whites. MLF strongly recommended — converts malic to lactic acid for silky mouthfeel. Target pH 3.5. Use French oak if any oak addition.' }
+};
+
+function setVariety(key, btn) {
+  document.querySelectorAll('.vbtn').forEach(b => b.classList.remove('active'));
+  btn.classList.add('active');
+  const v = varieties[key];
+  document.getElementById('v-ph').textContent = v.ph;
+  document.getElementById('v-ta').innerHTML = v.ta + '<span>g/L</span>';
+  document.getElementById('v-type').textContent = v.type;
+  document.getElementById('v-style').textContent = v.style;
+  document.getElementById('v-note').textContent = v.note;
+}
+setVariety('chard', document.querySelector('.vbtn'));
+
+function calcAll() {
+  const og = parseFloat(document.getElementById('ogSlider').value);
+  const fg = parseFloat(document.getElementById('fgSlider').value);
+  const batch = parseFloat(document.getElementById('batchSize').value) || 1;
+  document.getElementById('ogVal').textContent = og.toFixed(3);
+  document.getElementById('fgVal').textContent = fg.toFixed(3);
+  const abv = ((og - fg) * 131.25).toFixed(1);
+  const pa = ((og - 1) * 131.25).toFixed(1);
+  const brix = ((og - 1) * 250).toFixed(1);
+  const sugarUsed = Math.round((og - fg) * 258 * batch);
+  document.getElementById('m-abv').innerHTML = abv + '<span>%</span>';
+  document.getElementById('m-pa').innerHTML = pa + '<span>%</span>';
+  document.getElementById('m-brix').innerHTML = brix + '<span>°Bx</span>';
+  document.getElementById('m-sugar').innerHTML = sugarUsed + '<span>g/gal</span>';
+}
+calcAll();
+
+function calcSugar() {
+  const cur = parseFloat(document.getElementById('curBrix').value);
+  const tgt = parseFloat(document.getElementById('tgtBrix').value);
+  const batch = parseFloat(document.getElementById('batchSize').value) || 1;
+  const el = document.getElementById('sugarResult');
+  if (!cur || !tgt || tgt <= cur) { el.textContent = 'Target Brix must be higher than current to calculate sugar addition.'; return; }
+  const lbs = ((batch * 8.345 * (tgt - cur) / 100) / 0.64).toFixed(3);
+  const grams = Math.round(parseFloat(lbs) * 453.6);
+  el.innerHTML = `To raise ${cur}°Bx → ${tgt}°Bx in ${batch} gallon(s):<br><strong>Add ${lbs} lbs (${grams}g) of table sugar.</strong><br>Dissolve in a small amount of warm juice before adding back to the must.`;
+}
+calcSugar();
+
+function calcTempCorr() {
+  const sg = parseFloat(document.getElementById('sgMeasured').value);
+  const t = parseFloat(document.getElementById('mustTemp').value);
+  const el = document.getElementById('tempResult');
+  if (!sg || !t) return;
+  const corr = 1.313454 - 0.132674*t + 2.057793e-3*t*t - 2.627634e-6*t*t*t;
+  const corrSG = (sg + corr).toFixed(4);
+  const diff = corr >= 0 ? '+' + corr.toFixed(4) : corr.toFixed(4);
+  el.innerHTML = `Corrected SG: <strong>${corrSG}</strong> (correction: ${diff})<br>Your hydrometer is calibrated to 60°F. At ${t}°F, apply this correction.`;
+}
+calcTempCorr();
+
+function showTab(id, btn) {
+  document.querySelectorAll('.panel').forEach(p => p.classList.remove('active'));
+  document.querySelectorAll('.nav-btn').forEach(b => b.classList.remove('active'));
+  document.getElementById('tab-' + id).classList.add('active');
+  btn.classList.add('active');
+}
+
+// TIMELINE
+const phases = [
+  { label: 'Must prep', days: 'Day 0', color: '#4a3570', white: 'KMBS, pectic enzyme, bentonite', red: 'KMBS, Opti-Red, tannins' },
+  { label: 'Primary', days: 'Days 1–10', color: '#7a1c2e', white: 'Yeast pitch, Go-Ferm, Fermaid-O × 2', red: 'Yeast, Go-Ferm, Fermaid-O + DAP' },
+  { label: 'Secondary', days: 'Days 7–21', color: '#b8882a', white: 'Rack, KMBS, complete dry', red: 'Rack, MLB inoculation, oak chips' },
+  { label: 'Clearing', days: 'Weeks 3–8', color: '#2d6a4f', white: 'Kieselsol+Chitosan, cold crash', red: 'Wait for MLF, then Kieselsol+Chitosan' },
+  { label: 'Bottling', days: 'Wks 8–12', color: '#5a5048', white: 'KMBS, ascorbic acid, cork', red: 'KMBS, cork — no sorbate' },
+  { label: 'Aging', days: 'Mo 3–18', color: '#1a1410', white: 'Drink Chard 3–12mo, SB 6–9mo', red: 'Best at 12–24 months' },
+];
+
+const tlV = document.getElementById('tlVisual');
+const tlD = document.getElementById('tlDetails');
+phases.forEach((p, i) => {
+  const div = document.createElement('div');
+  div.className = 'tl-phase';
+  div.innerHTML = `<div class="tl-bar" style="background:${p.color};margin-right:${i<phases.length-1?'3px':'0'}">${p.label}</div><div class="tl-days">${p.days}</div>`;
+  tlV.appendChild(div);
+});
+
+const tableData = [
+  ['Must prep (Day 0)', 'KMBS, pectic enzyme, bentonite', 'KMBS, Opti-Red, grape tannins'],
+  ['Yeast pitch (Day 1)', 'Go-Ferm + EC-1118 or QA23', 'Go-Ferm + RC-212 or D254'],
+  ['Primary duration', '5–8 days', '7–10 days'],
+  ['Fermentation temp', '60–68°F', '68–75°F'],
+  ['Nutrients', 'Fermaid-O only (×2)', 'Fermaid-O + DAP (×2)'],
+  ['MLF', 'No (skip for freshness)', 'Yes — strongly recommended'],
+  ['Oak', 'No (Chard: optional light)', 'French oak chips optional'],
+  ['Fining', 'Kieselsol + Chitosan', 'Kieselsol + Chitosan (after MLF)'],
+  ['Cold crash', 'Recommended 38–45°F', 'Optional'],
+  ['Bottling readiness', '8–12 weeks', '3–6 months'],
+  ['Drinking window', 'SB: 6–9mo · Chard: 3–12mo', '6mo+, best 12–24mo'],
+];
+const tbody = document.getElementById('tlTable');
+tableData.forEach(row => {
+  const tr = document.createElement('tr');
+  tr.style.borderBottom = '1px solid var(--border)';
+  tr.innerHTML = `<td style="padding:8px 0;color:var(--text2);font-size:13px;">${row[0]}</td><td style="padding:8px;text-align:center;font-size:13px;color:var(--text);">${row[1]}</td><td style="padding:8px;text-align:center;font-size:13px;color:var(--text);">${row[2]}</td>`;
+  tbody.appendChild(tr);
+});
+
+// CLARITY CHECKLIST
+const items = [
+  'Sanitize all equipment before touching anything',
+  'Add KMBS (¼ tsp/gal) at Day 0 — 24h before yeast',
+  'Add pectic enzyme (½ tsp/gal) simultaneously with KMBS',
+  'Add pre-hydrated bentonite (½ tsp/gal) at Day 0–1',
+  'Ferment at 60–68°F — never above 72°F for whites',
+  'Rack carefully — no splashing or aeration at any stage',
+  'Add Kieselsol + Chitosan when FG is stable',
+  'Cold crash at 38–45°F for 5–7 days before bottling',
+  'Final KMBS dose (¼ tsp/gal) right before bottling',
+  'Add ascorbic acid (¼ tsp/gal) at bottling as extra protection',
+  'Store bottles upright for 2 weeks, then on their side',
+];
+const cl = document.getElementById('clarityChecklist');
+items.forEach(item => {
+  cl.innerHTML += `<div class="check-item"><span class="check-icon">✓</span><span>${item}</span></div>`;
+});
+
+// BATCH LOG
+function saveLog() {
+  const variety = document.getElementById('logVariety').value;
+  const date = document.getElementById('logDate').value;
+  const og = document.getElementById('logOG').value;
+  const fg = document.getElementById('logFG').value;
+  const yeast = document.getElementById('logYeast').value;
+  const additives = document.getElementById('logAdditives').value;
+  const notes = document.getElementById('logNotes').value;
+  if (!variety) { alert('Please enter a variety name.'); return; }
+  const entries = JSON.parse(localStorage.getItem('winelog') || '[]');
+  const abv = og && fg ? ((og - fg) * 131.25).toFixed(1) + '%' : '—';
+  entries.unshift({ variety, date, og, fg, abv, yeast, additives, notes, id: Date.now() });
+  localStorage.setItem('winelog', JSON.stringify(entries));
+  ['logVariety','logDate','logOG','logFG','logYeast','logAdditives','logNotes'].forEach(id => document.getElementById(id).value = '');
+  renderLog();
+}
+
+function deleteLog(id) {
+  const entries = JSON.parse(localStorage.getItem('winelog') || '[]').filter(e => e.id !== id);
+  localStorage.setItem('winelog', JSON.stringify(entries));
+  renderLog();
+}
+
+function renderLog() {
+  const entries = JSON.parse(localStorage.getItem('winelog') || '[]');
+  const el = document.getElementById('logEntries');
+  if (!entries.length) {
+    el.innerHTML = '<div style="text-align:center;color:var(--text3);padding:2rem;font-size:13px;">No batch entries yet. Start logging your wines above.</div>';
+    return;
+  }
+  el.innerHTML = entries.map(e => `
+    <div class="log-entry card">
+      <div class="log-entry-header">
+        <div>
+          <div class="log-entry-title">${e.variety}</div>
+          <div class="log-entry-date">${e.date || 'No date'} · OG: ${e.og || '—'} · FG: ${e.fg || '—'} · ABV: ${e.abv}</div>
+        </div>
+        <button class="log-delete" onclick="deleteLog(${e.id})">×</button>
+      </div>
+      ${e.yeast ? `<div class="log-entry-body"><strong>Yeast:</strong> ${e.yeast}</div>` : ''}
+      ${e.additives ? `<div class="log-entry-body"><strong>Additives:</strong> ${e.additives}</div>` : ''}
+      ${e.notes ? `<div class="log-entry-body" style="margin-top:4px;">${e.notes}</div>` : ''}
+    </div>
+  `).join('');
+}
+renderLog();
+</script>
+</body>
+</html>
