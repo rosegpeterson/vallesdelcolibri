@@ -91,6 +91,18 @@
     font-size: 12px;
     padding: 4px 12px;
     border-radius: 20px;
+    cursor: pointer;
+    font-family: var(--font-sans, sans-serif);
+    transition: background 0.15s, border-color 0.15s;
+  }
+  .vpill:hover {
+    background: rgba(255,255,255,0.28);
+    border-color: rgba(255,255,255,0.5);
+  }
+  .vpill.active-pill {
+    background: rgba(255,255,255,0.35);
+    border-color: white;
+    font-weight: 500;
   }
 
   /* NAV */
@@ -395,10 +407,11 @@
       <div class="header-title">Valles del Colibrí</div>
       <div class="header-sub">Vibrant · Graceful · Full of Life — Washington Wines</div>
       <div class="variety-pills">
-        <span class="vpill">Chardonnay</span>
-        <span class="vpill">Sauvignon Blanc</span>
-        <span class="vpill">Pinot Grigio</span>
-        <span class="vpill">Pinot Noir</span>
+        <button class="vpill" onclick="showTabFromHeader('chard', this)">Chardonnay</button>
+        <button class="vpill" onclick="showTabFromHeader('sauv', this)">Sauvignon Blanc</button>
+        <button class="vpill" onclick="showTabFromHeader('grigio', this)">Pinot Grigio</button>
+        <button class="vpill" onclick="showTabFromHeader('pinotnoir', this)">Pinot Noir</button>
+        <button class="vpill" onclick="showTabFromHeader('cabsauv', this)">Cabernet Sauvignon</button>
       </div>
     </div>
   </div>
@@ -408,7 +421,6 @@
   <button class="nav-btn active" onclick="showTab('calc', this)">Calculator</button>
   <button class="nav-btn" onclick="showTab('timeline', this)">Timeline</button>
   <button class="nav-btn" onclick="showTab('white', this)">White Wine Guide</button>
-  <button class="nav-btn" onclick="showTab('grigio', this)">Pinot Grigio Guide</button>
   <button class="nav-btn" onclick="showTab('red', this)">Red Wine Guide</button>
   <button class="nav-btn" onclick="showTab('clarity', this)">Clarity & Color</button>
   <button class="nav-btn" onclick="showTab('log', this)">Batch Log</button>
@@ -452,6 +464,7 @@
       <button class="vbtn" onclick="setVariety('sauv', this)">Sauvignon Blanc</button>
       <button class="vbtn" onclick="setVariety('grigio', this)">Pinot Grigio</button>
       <button class="vbtn" onclick="setVariety('pinot', this)">Pinot Noir</button>
+      <button class="vbtn" onclick="setVariety('cab', this)">Cabernet Sauvignon</button>
     </div>
     <div class="metric-grid">
       <div class="metric"><div class="metric-label">Target pH</div><div class="metric-val" id="v-ph" style="font-size:1.2rem;">—</div></div>
@@ -665,175 +678,701 @@
   </div>
 </div>
 
-<!-- PINOT GRIGIO GUIDE -->
+<!-- CABERNET SAUVIGNON GUIDE (accessible via header pill only) -->
+<div id="tab-cabsauv" class="panel">
+  <div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:1.25rem;flex-wrap:wrap;gap:8px;">
+    <span class="badge badge-red" style="font-size:12px;padding:4px 12px;">Cabernet Sauvignon &mdash; CABs / CS</span>
+    <span style="font-size:12px;color:var(--text3);">World&apos;s most popular red &middot; Bordeaux, France &middot; Bold &amp; age-worthy</span>
+  </div>
+
+  <div style="background:var(--wine);border-radius:var(--radius);padding:2rem;margin-bottom:1.25rem;position:relative;overflow:hidden;">
+    <div style="position:absolute;top:-40px;right:-40px;width:140px;height:140px;border-radius:50%;background:rgba(255,255,255,0.05);"></div>
+    <div style="font-family:'Cormorant Garamond',serif;font-size:1.4rem;font-weight:400;font-style:italic;color:white;line-height:1.6;position:relative;">
+      The world&apos;s most popular red wine grape &mdash; loved for its high concentration, powerful tannins, and extraordinary age-worthiness. A natural hybrid of Cabernet Franc and Sauvignon Blanc, born in Bordeaux.
+    </div>
+  </div>
+
+  <!-- Origin & Type -->
+  <div class="card">
+    <div class="section-eyebrow">Origin &amp; Type</div>
+    <div class="card-title">The &ldquo;wild Cabernet&rdquo; from Bordeaux</div>
+    <p style="font-size:14px;color:var(--text2);line-height:1.8;margin-bottom:1.25rem;">
+      Cabernet Sauvignon means <strong>&ldquo;wild Cabernet&rdquo;</strong> and originated in the Aquitaine Department of France, which includes Bordeaux. In 1997, researchers at UC Davis (Carole Meredith and John Bowers) shocked the wine world when they discovered that Cabernet Sauvignon was a <strong>natural hybrid child of Sauvignon Blanc and Cabernet Franc</strong> &mdash; two grapes that crossed naturally in the vineyards of Bordeaux centuries ago.
+    </p>
+    <p style="font-size:14px;color:var(--text2);line-height:1.8;margin-bottom:1.25rem;">
+      As Cabernet Sauvignon ages, it gradually <strong>loses its deep red color</strong>, shifting to a more garnet and eventually brownish-brick hue &mdash; a natural sign of a well-aged bottle.
+    </p>
+    <div style="display:grid;grid-template-columns:repeat(auto-fit,minmax(140px,1fr));gap:10px;margin-bottom:1rem;">
+      <div class="metric"><div class="metric-label">Type</div><div class="metric-val" style="font-size:1rem;">Dry red</div></div>
+      <div class="metric"><div class="metric-label">Body</div><div class="metric-val" style="font-size:1rem;">Full</div></div>
+      <div class="metric"><div class="metric-label">Tannins</div><div class="metric-val" style="font-size:1rem;">High</div></div>
+      <div class="metric"><div class="metric-label">Acidity</div><div class="metric-val" style="font-size:1rem;">Medium-low</div></div>
+      <div class="metric"><div class="metric-label">Ageability</div><div class="metric-val" style="font-size:1rem;">5–25+ years</div></div>
+      <div class="metric"><div class="metric-label">Climate</div><div class="metric-val" style="font-size:1rem;">Warm &amp; sunny</div></div>
+    </div>
+    <div class="info-box gold">
+      <strong>Difficult to grow.</strong> Cabernet Sauvignon needs a sunny, warm (but not too hot) climate so the grapes ripen slowly. Too cold and the tannins turn harsh and green; too hot and it loses complexity. Gravelly, well-drained soils &mdash; like those in Bordeaux &mdash; are ideal.
+    </div>
+  </div>
+
+  <!-- Regions -->
+  <div class="card">
+    <div class="section-eyebrow">Regions</div>
+    <div class="card-title">Where Cabernet Sauvignon excels</div>
+
+    <div class="additive-row">
+      <div>
+        <div class="additive-name">🇫🇷 Bordeaux, France &mdash; the original</div>
+        <div class="additive-why">The &ldquo;OG&rdquo; Cabernet Sauvignon region. Gravelly soils produce some of the most savory and age-worthy expressions. Most wines here are blended into the famous &ldquo;Bordeaux Blend&rdquo; rather than made as single-varietals.<br>
+        <span style="font-size:12px;color:var(--wine);font-weight:500;">Flavors: Black Currant &middot; Anise &middot; Tobacco Leaf &middot; Plum Sauce &middot; Pencil Lead</span></div>
+      </div>
+    </div>
+
+    <div class="additive-row">
+      <div>
+        <div class="additive-name">🇺🇸 California, USA &mdash; Napa Valley, Sonoma, Santa Barbara</div>
+        <div class="additive-why">The North Coast AVA (Napa Valley, Sonoma) became world-famous when Californian wines beat France&apos;s top wines at the blind &ldquo;Judgement of Paris&rdquo; in 1976 &mdash; proving that great Cabernet could be made outside of France. Pacific Ocean breezes moderate temperatures along the coast.<br>
+        <span style="font-size:12px;color:var(--wine);font-weight:500;">Flavors: Black Currant &middot; Blackberry &middot; Pencil Lead &middot; Tobacco &middot; Mint</span></div>
+      </div>
+    </div>
+
+    <div class="additive-row">
+      <div>
+        <div class="additive-name">🇦🇺 South Australia &mdash; Coonawarra &amp; Langhorne Creek</div>
+        <div class="additive-why">Warm climate and distinctive red clay &ldquo;terra rossa&rdquo; soils with high iron-oxide content. Famous for exceptional and unique expressions of Cabernet Sauvignon with ample depth, powerful tannins, and distinct notes of white pepper or bay leaf.<br>
+        <span style="font-size:12px;color:var(--wine);font-weight:500;">Flavors: Black Plum &middot; White Pepper &middot; Currant Candy &middot; Chocolate &middot; Bay Leaf</span></div>
+      </div>
+    </div>
+
+    <div class="additive-row">
+      <div>
+        <div class="additive-name">🇨🇱 Chile &mdash; Maipo, Aconcagua, Cachapoal &amp; Colchagua Valleys</div>
+        <div class="additive-why">Chile offers some of the best value for exceptional quality Cabernet Sauvignon. Maipo Valley sits between cooling Pacific breezes and the hot Andes Mountains, creating one of the most ideal Mediterranean climates for the grape. Outstanding quality at accessible prices.<br>
+        <span style="font-size:12px;color:var(--wine);font-weight:500;">Flavors: Blackberry &middot; Black Cherry &middot; Fig Paste &middot; Baking Spices &middot; Green Peppercorn</span></div>
+      </div>
+    </div>
+
+    <div class="additive-row">
+      <div>
+        <div class="additive-name">🇩🇪 Pfalz, Germany &amp; others</div>
+        <div class="additive-why">Germany&apos;s Pfalz region produces a smaller, cooler-climate style of Cabernet Sauvignon. Other notable regions include Washington State (USA), Tuscany (Italy), Mendoza (Argentina), and South Africa&apos;s Stellenbosch.</div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Flavors -->
+  <div class="card">
+    <div class="section-eyebrow">Flavors &amp; aromas</div>
+    <div class="card-title">Bold, dark, and complex &mdash; it all depends on the terroir</div>
+    <p style="font-size:14px;color:var(--text2);line-height:1.8;margin-bottom:1rem;">
+      Some Cabernet Sauvignons are <strong>sumptuous and fruity</strong>, others are <strong>savory and smoky</strong>. It all depends on where the grape grows and how it is made. The unifying thread is its deep dark fruit character, firm tannin structure, and long finish.
+    </p>
+    <div style="display:grid;grid-template-columns:repeat(auto-fit,minmax(130px,1fr));gap:8px;">
+      <div class="metric"><div class="metric-label">Dark fruit</div><div style="font-size:12px;color:var(--text2);margin-top:4px;line-height:1.5;">Black currant · Blackberry · Black cherry · Black plum</div></div>
+      <div class="metric"><div class="metric-label">Savory</div><div style="font-size:12px;color:var(--text2);margin-top:4px;line-height:1.5;">Tobacco · Pencil lead · Anise · Green pepper · Bay leaf</div></div>
+      <div class="metric"><div class="metric-label">Spice &amp; earth</div><div style="font-size:12px;color:var(--text2);margin-top:4px;line-height:1.5;">Mint · Baking spices · White pepper · Chocolate</div></div>
+      <div class="metric"><div class="metric-label">Oak notes</div><div style="font-size:12px;color:var(--text2);margin-top:4px;line-height:1.5;">Vanilla · Cedar · Toast · Smoke · Fig paste</div></div>
+    </div>
+  </div>
+
+  <!-- Pairing -->
+  <div class="card">
+    <div class="section-eyebrow">Food pairing</div>
+    <div class="card-title">Rich food for a rich wine</div>
+    <p style="font-size:14px;color:var(--text2);line-height:1.8;margin-bottom:1rem;">
+      The rich flavor and <strong>high tannin content</strong> in Cabernet Sauvignon make it a perfect partner to rich, fatty, and boldly flavored foods. Tannins bind with proteins in meat, softening both the wine and the dish &mdash; a classic pairing principle.
+    </p>
+    <div style="display:grid;grid-template-columns:1fr 1fr;gap:12px;">
+      <div style="background:var(--wine-light);border-radius:var(--radius-sm);padding:1rem;">
+        <div style="font-size:11px;font-weight:500;text-transform:uppercase;letter-spacing:0.08em;color:var(--wine);margin-bottom:8px;">🥩 Grilled &amp; Rich Meats</div>
+        <div style="font-size:12px;color:var(--text2);line-height:1.7;">Ribeye steak &middot; T-bone &middot; Lamb chops &middot; Brisket &middot; Peppercorn-crusted steaks &middot; Grilled pork ribs &middot; Venison</div>
+      </div>
+      <div style="background:var(--gold-light);border-radius:var(--radius-sm);padding:1rem;">
+        <div style="font-size:11px;font-weight:500;text-transform:uppercase;letter-spacing:0.08em;color:var(--gold);margin-bottom:8px;">🫙 Sauces &amp; Seasonings</div>
+        <div style="font-size:12px;color:var(--text2);line-height:1.7;">Peppery sauces &middot; Rich red wine reductions &middot; Black truffle &middot; Rosemary &middot; Bold garlic-herb rubs &middot; Chimichurri</div>
+      </div>
+      <div style="background:var(--purple-light);border-radius:var(--radius-sm);padding:1rem;">
+        <div style="font-size:11px;font-weight:500;text-transform:uppercase;letter-spacing:0.08em;color:var(--purple);margin-bottom:8px;">🧀 Cheese</div>
+        <div style="font-size:12px;color:var(--text2);line-height:1.7;">Aged cheddar &middot; Manchego &middot; Pecorino &middot; Aged gouda &middot; Parmesan &middot; Strong, firm cheeses that match Cab&apos;s intensity</div>
+      </div>
+      <div style="background:var(--green-light);border-radius:var(--radius-sm);padding:1rem;">
+        <div style="font-size:11px;font-weight:500;text-transform:uppercase;letter-spacing:0.08em;color:var(--green);margin-bottom:8px;">🍄 Bold Dishes</div>
+        <div style="font-size:12px;color:var(--text2);line-height:1.7;">Wild mushroom ragù &middot; Eggplant dishes &middot; Dark chocolate (70%+) &middot; Lentil stews &middot; Hearty pasta Bolognese</div>
+      </div>
+    </div>
+    <div class="info-box wine" style="margin-top:1rem;">
+      <strong>Serving temperature:</strong> 60–65°F (15–18°C). Serve slightly below room temperature. Cabernet Sauvignon benefits from <strong>decanting for 30–60 minutes</strong> before serving to open up its aromas and soften the tannins &mdash; especially important for younger vintages.
+    </div>
+  </div>
+
+  <div class="info-box purple" style="margin-bottom:1.25rem;">
+    <strong>Making your own Cabernet Sauvignon?</strong> See the Calculator tab for pH &amp; TA targets specific to Cabernet Sauvignon, and the Red Wine Guide for the step-by-step winemaking process.
+    <span style="display:inline-block;margin-left:8px;cursor:pointer;text-decoration:underline;" onclick="document.querySelectorAll('.nav-btn')[3].click()">Go to Red Wine Guide &rarr;</span>
+  </div>
+</div>
+
+<!-- CHARDONNAY GUIDE (accessible via header pill only) -->
+<div id="tab-chard" class="panel">
+  <div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:1.25rem;flex-wrap:wrap;gap:8px;">
+    <span class="badge badge-white" style="font-size:12px;padding:4px 12px;">Chardonnay</span>
+    <span style="font-size:12px;color:var(--text3);">AKA Morillon &middot; Chablis (France) &middot; Dry white</span>
+  </div>
+
+  <div style="background:var(--wine);border-radius:var(--radius);padding:2rem;margin-bottom:1.25rem;position:relative;overflow:hidden;">
+    <div style="position:absolute;top:-40px;right:-40px;width:140px;height:140px;border-radius:50%;background:rgba(255,255,255,0.05);"></div>
+    <div style="font-family:'Cormorant Garamond',serif;font-size:1.4rem;font-weight:400;font-style:italic;color:white;line-height:1.6;position:relative;">
+      From lean and chalky to rich, creamy, and oak-aged &mdash; Chardonnay is the world&apos;s most versatile white grape, found in every winemaking country on earth.
+    </div>
+  </div>
+
+  <!-- Type & Body -->
+  <div class="card">
+    <div class="section-eyebrow">Type &amp; Body</div>
+    <div class="card-title">Dry &mdash; grown everywhere, styled two ways</div>
+    <p style="font-size:14px;color:var(--text2);line-height:1.8;margin-bottom:1.25rem;">
+      Chardonnay grows in a range of climates all over the world. It has two main style directions: <strong>oaked</strong> (rich, buttery, creamy) and <strong>unoaked</strong> (lean, mineral, crisp). It is also the primary grape in many of the world&apos;s finest sparkling wines, including Champagne, where it is blended with Pinot Noir.
+    </p>
+    <div style="display:grid;grid-template-columns:repeat(auto-fit,minmax(150px,1fr));gap:10px;">
+      <div class="metric"><div class="metric-label">Type</div><div class="metric-val" style="font-size:1rem;">Dry</div></div>
+      <div class="metric"><div class="metric-label">Body</div><div class="metric-val" style="font-size:1rem;">Light &rarr; Full</div></div>
+      <div class="metric"><div class="metric-label">Tannins</div><div class="metric-val" style="font-size:1rem;">None</div></div>
+      <div class="metric"><div class="metric-label">Acidity</div><div class="metric-val" style="font-size:1rem;">Med &rarr; High</div></div>
+    </div>
+    <div class="info-box purple" style="margin-top:1rem;">
+      <strong>Climate matters:</strong> Cool climates produce high acidity, light-to-medium body. Warm climates produce medium acidity, medium-to-full body &mdash; the same grape, entirely different wine.
+    </div>
+  </div>
+
+  <!-- Regions -->
+  <div class="card">
+    <div class="section-eyebrow">Regions</div>
+    <div class="card-title">Where Chardonnay shines</div>
+    <p style="font-size:14px;color:var(--text2);line-height:1.8;margin-bottom:1rem;">Chardonnay originated in <strong>Burgundy, France</strong> and is now found in every winemaking country in the world.</p>
+
+    <div style="font-size:12px;font-weight:500;color:var(--wine);text-transform:uppercase;letter-spacing:0.08em;margin:1rem 0 0.5rem;">🌡 Warm climate — oaked style</div>
+    <div class="additive-row">
+      <div><div class="additive-name">France — Burgundy (Puligny-Montrachet, Meursault, Mâconnais)</div>
+      <div class="additive-why">Some of the world&apos;s finest Chardonnays. Oak aging, malolactic fermentation, and lees stirring create very complex, rich styles. Rich aromas of peach, mango, lemon, vanilla, butter, and toasted bread.</div></div>
+    </div>
+    <div class="additive-row">
+      <div><div class="additive-name">California — Napa Valley, Paso Robles, Lake County</div>
+      <div class="additive-why">Adapts to diverse climates. Tropical, opulent wines in warmer Napa Valley. Buttery, full-bodied style with vanilla and caramel from American oak.</div></div>
+    </div>
+    <div class="additive-row">
+      <div><div class="additive-name">Australia — Southern &amp; Eastern regions, Mendoza (Argentina), Puglia (Italy)</div>
+      <div class="additive-why">Warm climate produces rich, fruit-forward Chardonnays with tropical notes and pronounced oak influence.</div></div>
+    </div>
+
+    <div style="font-size:12px;font-weight:500;color:var(--purple);text-transform:uppercase;letter-spacing:0.08em;margin:1.25rem 0 0.5rem;">❄️ Cool climate — unoaked style</div>
+    <div class="additive-row">
+      <div><div class="additive-name">France — Chablis &amp; Loire</div>
+      <div class="additive-why">Chablis uses Kimmeridgian clay soil for a unique flinty-mineral edge. Lean and steely with tart green apple, lemon, and oyster shell. Minimal oak. Yogurt aromas from MLF.</div></div>
+    </div>
+    <div class="additive-row">
+      <div><div class="additive-name">Sonoma Coast (CA), Oregon, Western Australia</div>
+      <div class="additive-why">Mineral-rich, cool-climate style. Refreshingly acidic with fruit-forward but restrained character.</div></div>
+    </div>
+    <div class="additive-row">
+      <div><div class="additive-name">New Zealand, Chile (Colchagua &amp; Casablanca Valley), South Africa</div>
+      <div class="additive-why">Prominent cool-climate regions producing crisp, citrusy Chardonnays. Casablanca Valley in Chile is particularly notable for elegant, mineral-driven examples.</div></div>
+    </div>
+  </div>
+
+  <!-- Two styles -->
+  <div class="card">
+    <div class="section-eyebrow">The two styles</div>
+    <div class="card-title">Oaked vs Unoaked &mdash; completely different experiences</div>
+    <div style="display:grid;grid-template-columns:1fr 1fr;gap:12px;margin-bottom:1.25rem;">
+      <div style="background:var(--gold-light);border-radius:var(--radius-sm);padding:1.25rem;">
+        <div style="font-size:11px;font-weight:500;text-transform:uppercase;letter-spacing:0.08em;color:var(--gold);margin-bottom:8px;">🪵 Oaked — Burgundian style</div>
+        <div style="font-size:13px;color:var(--text2);line-height:1.7;">
+          Aged in new oak barrels (American or French). Undergoes malolactic fermentation (MLF) + lees stirring.<br><br>
+          <strong>Flavors:</strong> Vanilla · Butter · Caramel · Toasted bread · Peach · Mango · Tropical fruit<br><br>
+          <strong>Serve at:</strong> 54°F (12°C)
+        </div>
+      </div>
+      <div style="background:var(--purple-light);border-radius:var(--radius-sm);padding:1.25rem;">
+        <div style="font-size:11px;font-weight:500;text-transform:uppercase;letter-spacing:0.08em;color:var(--purple);margin-bottom:8px;">🥶 Unoaked — Chablis style</div>
+        <div style="font-size:13px;color:var(--text2);line-height:1.7;">
+          Aged in stainless steel. No MLF. Preserves natural acidity and pure fruit expression.<br><br>
+          <strong>Flavors:</strong> Green apple · Lemon · Pear · Citrus · Chalk · Mineral<br><br>
+          <strong>Serve at:</strong> 48°F (9°C)
+        </div>
+      </div>
+    </div>
+    <div class="info-box gold">
+      <strong>What is MLF?</strong> Malolactic Fermentation converts sharp malic acid into smooth lactic acid, raising pH and adding buttery/butterscotch aromas. It&apos;s nearly universal in red wines and common in oaked Chardonnay &mdash; but deliberately avoided in unoaked styles to preserve freshness. American oak adds sweet vanilla and coconut; French oak is subtler and more elegant.
+    </div>
+  </div>
+
+  <!-- Flavors -->
+  <div class="card">
+    <div class="section-eyebrow">Flavors &amp; aromas</div>
+    <div class="card-title">What to expect in the glass</div>
+    <p style="font-size:14px;color:var(--text2);line-height:1.8;margin-bottom:1rem;">
+      Hints and strong fruity notes of <strong>pear, apple, tropical fruit, papaya</strong>, with hints of oak and vanilla in warmer expressions. Depending on ripeness: lemon and green apple (less ripe) to pineapple and figs (very ripe).
+    </p>
+    <div style="display:grid;grid-template-columns:repeat(auto-fit,minmax(130px,1fr));gap:8px;">
+      <div class="metric"><div class="metric-label">Cool climate</div><div style="font-size:12px;color:var(--text2);margin-top:4px;line-height:1.5;">Lemon · Green apple · Pear · Citrus · Chalk</div></div>
+      <div class="metric"><div class="metric-label">Warm climate</div><div style="font-size:12px;color:var(--text2);margin-top:4px;line-height:1.5;">Peach · Mango · Papaya · Pineapple · Figs</div></div>
+      <div class="metric"><div class="metric-label">Oaked notes</div><div style="font-size:12px;color:var(--text2);margin-top:4px;line-height:1.5;">Vanilla · Butter · Caramel · Toast · Nuts</div></div>
+      <div class="metric"><div class="metric-label">Mineral notes</div><div style="font-size:12px;color:var(--text2);margin-top:4px;line-height:1.5;">Oyster shell · Flint · Chalk · Wet stone</div></div>
+    </div>
+  </div>
+
+  <!-- Pairing -->
+  <div class="card">
+    <div class="section-eyebrow">Food pairing</div>
+    <div class="card-title">Match the style to the food</div>
+    <div style="display:grid;grid-template-columns:1fr 1fr;gap:12px;">
+      <div style="background:var(--gold-light);border-radius:var(--radius-sm);padding:1rem;">
+        <div style="font-size:11px;font-weight:500;text-transform:uppercase;letter-spacing:0.08em;color:var(--gold);margin-bottom:8px;">🪵 Oaked Chardonnay</div>
+        <div style="font-size:12px;color:var(--text2);line-height:1.7;">Crab cakes · Linguini vongole (clams) · Halibut · Pork tenderloin with apples · Corn · Pumpkin · Squash · Mushrooms</div>
+      </div>
+      <div style="background:var(--purple-light);border-radius:var(--radius-sm);padding:1rem;">
+        <div style="font-size:11px;font-weight:500;text-transform:uppercase;letter-spacing:0.08em;color:var(--purple);margin-bottom:8px;">❄️ Unoaked Chardonnay</div>
+        <div style="font-size:12px;color:var(--text2);line-height:1.7;">Oysters &middot; Sushi &middot; Sautéed fish &middot; Chicken Piccata &middot; Vegetable risotto &middot; Moules-frites &middot; Pâté &middot; Lobster &middot; Halibut &middot; Trout &middot; Cod &middot; Salmon &middot; Shrimp</div>
+      </div>
+      <div style="background:var(--green-light);border-radius:var(--radius-sm);padding:1rem;">
+        <div style="font-size:11px;font-weight:500;text-transform:uppercase;letter-spacing:0.08em;color:var(--green);margin-bottom:8px;">🐟 Fish &amp; Seafood (both styles)</div>
+        <div style="font-size:12px;color:var(--text2);line-height:1.7;">Lobster &middot; Halibut &middot; Trout &middot; Cod &middot; Salmon &middot; Shrimp &middot; Oysters &middot; Scallops &middot; Fish with herbs or cream sauce</div>
+      </div>
+      <div style="background:var(--wine-light);border-radius:var(--radius-sm);padding:1rem;">
+        <div style="font-size:11px;font-weight:500;text-transform:uppercase;letter-spacing:0.08em;color:var(--wine);margin-bottom:8px;">🍗 White meats &amp; Vegetarian</div>
+        <div style="font-size:12px;color:var(--text2);line-height:1.7;">Chicken breast &middot; Turkey &middot; Pork loin &middot; Rich vegetables (corn, squash) &middot; Mushrooms &middot; Starchy dishes</div>
+      </div>
+    </div>
+    <div class="info-box green" style="margin-top:1rem;">
+      <strong>Serving temperature:</strong> Unoaked at 48°F (9°C) &middot; Oaked at 54°F (12°C). Keep spice and flavor intensity low while accentuating creamy, buttery flavors and textures for oaked styles.
+    </div>
+  </div>
+
+  <div class="info-box purple" style="margin-bottom:1.25rem;">
+    <strong>Making your own Chardonnay?</strong> See the White Wine Guide for the full step-by-step process, additives, and timing.
+    <span style="display:inline-block;margin-left:8px;cursor:pointer;text-decoration:underline;" onclick="showTab('white', document.querySelector('.nav-btn:nth-child(3))')">Go to White Wine Guide &rarr;</span>
+  </div>
+</div>
+
+<!-- SAUVIGNON BLANC GUIDE (accessible via header pill only) -->
+<div id="tab-sauv" class="panel">
+  <div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:1.25rem;flex-wrap:wrap;gap:8px;">
+    <span class="badge badge-white" style="font-size:12px;padding:4px 12px;">Sauvignon Blanc</span>
+    <span style="font-size:12px;color:var(--text3);">AKA Fumé Blanc (CA) &middot; Bordeaux &amp; Sancerre, France &middot; Dry white</span>
+  </div>
+
+  <div style="background:var(--wine);border-radius:var(--radius);padding:2rem;margin-bottom:1.25rem;position:relative;overflow:hidden;">
+    <div style="position:absolute;top:-40px;right:-40px;width:140px;height:140px;border-radius:50%;background:rgba(255,255,255,0.05);"></div>
+    <div style="font-family:'Cormorant Garamond',serif;font-size:1.4rem;font-weight:400;font-style:italic;color:white;line-height:1.6;position:relative;">
+      From the French <em>sauvage</em> (&ldquo;wild&rdquo;) &mdash; a highly aromatic, refreshing grape with racy acidity, green herbaceous notes, and vivid tropical fruit. One of the world&apos;s most recognizable white wines.
+    </div>
+  </div>
+
+  <!-- Type & Body -->
+  <div class="card">
+    <div class="section-eyebrow">Type &amp; Body</div>
+    <div class="card-title">Mostly dry &mdash; with rare, prized sweet exceptions</div>
+    <p style="font-size:14px;color:var(--text2);line-height:1.8;margin-bottom:1.25rem;">
+      Most Sauvignon Blanc is produced in a <strong>medium-bodied, dry style</strong> &mdash; refreshing and easy to drink, with moderate alcohol and elevated acidity. Sweet styles are rare but prized: the most famous are the dessert wines of <strong>Sauternes and Barsac</strong> in Bordeaux, made from grapes affected by <em>botrytis cinerea</em> (noble rot), which concentrates sugars and acidity by shrivelling the grapes on the vine, producing flavors of marmalade, saffron, and apricot.
+    </p>
+    <div style="display:grid;grid-template-columns:repeat(auto-fit,minmax(140px,1fr));gap:10px;margin-bottom:1rem;">
+      <div class="metric"><div class="metric-label">Type</div><div class="metric-val" style="font-size:1rem;">Dry (few sweet)</div></div>
+      <div class="metric"><div class="metric-label">Body</div><div class="metric-val" style="font-size:1rem;">Medium-light</div></div>
+      <div class="metric"><div class="metric-label">Tannins</div><div class="metric-val" style="font-size:1rem;">None</div></div>
+      <div class="metric"><div class="metric-label">Acidity</div><div class="metric-val" style="font-size:1rem;">High</div></div>
+    </div>
+    <div class="info-box purple">
+      <strong>Dry vs Sweet:</strong> Dry Sauvignon Blanc is fermented in stainless steel for crisp texture. Sweet Sauternes-style wines (Sauternes, Barsac) pair with desserts, pâté, or blue cheese &mdash; a completely different experience from the same grape.
+    </div>
+  </div>
+
+  <!-- Regions -->
+  <div class="card">
+    <div class="section-eyebrow">Regions</div>
+    <div class="card-title">Where Sauvignon Blanc thrives</div>
+    <p style="font-size:14px;color:var(--text2);line-height:1.8;margin-bottom:1rem;">
+      Originates from <strong>Bordeaux, France</strong> &mdash; its name likely comes from the French words <em>sauvage</em> (&ldquo;wild&rdquo;) and <em>blanc</em> (&ldquo;white&rdquo;) due to its origins as an indigenous grape in South West France. It grows nearly everywhere and offers a variety of styles from lean to bountiful.
+    </p>
+    <div class="additive-row">
+      <div><div class="additive-name">France &mdash; Loire Valley (Sancerre, Pouilly-Fumé)</div>
+      <div class="additive-why">Cool climate. The historic home of Sauvignon Blanc. Sancerre produces white wine of striking minerality, racy acidity, and citrus precision. Considered the world benchmark for the dry style.</div></div>
+    </div>
+    <div class="additive-row">
+      <div><div class="additive-name">France &mdash; Bordeaux (Sauternes, Barsac)</div>
+      <div class="additive-why">Blended with Sémillon for both dry whites and the famous sweet Sauternes dessert wines. Oak-aged dry Bordeaux Blanc has vanilla and custard notes with a riper tropical fruit profile.</div></div>
+    </div>
+    <div class="additive-row">
+      <div><div class="additive-name">New Zealand &mdash; Marlborough (South Island)</div>
+      <div class="additive-why">Cool climate, concentrated and complex. More citrus-focused than big and tropical &mdash; the pristine fruit shines with careful use of oak. Now the world&apos;s most recognized Sauvignon Blanc region outside France.</div></div>
+    </div>
+    <div class="additive-row">
+      <div><div class="additive-name">United States &mdash; Napa Valley, California &amp; Washington</div>
+      <div class="additive-why">California&apos;s Napa Valley sometimes labels it <em>Fumé Blanc</em> when oak-aged. Washington produces vibrant, food-friendly examples with strong acidity and tropical character.</div></div>
+    </div>
+    <div class="additive-row">
+      <div><div class="additive-name">Chile &mdash; Andes Mountains &amp; Casablanca Valley</div>
+      <div class="additive-why">The Andean altitude and Pacific influence produce crisp, herbaceous, and refreshing expressions at exceptional value.</div></div>
+    </div>
+    <div class="additive-row">
+      <div><div class="additive-name">South Africa, Australia, Austria &amp; Others</div>
+      <div class="additive-why">South Africa (Cape Town coastal area), Australia (Adelaide Hills, Margaret River), Austria, Romania, Spain (Rueda), Argentina, Hungary all produce quality Sauvignon Blanc with regional character.</div></div>
+    </div>
+  </div>
+
+  <!-- Maturation -->
+  <div class="card">
+    <div class="section-eyebrow">Maturation &amp; winemaking</div>
+    <div class="card-title">Stainless steel &mdash; the classic choice</div>
+    <p style="font-size:14px;color:var(--text2);line-height:1.8;margin-bottom:1rem;">
+      Dry Sauvignon Blanc is almost always fermented in <strong>stainless steel tanks</strong> rather than oak, which preserves its crisp texture and vivid aromatics. Because it has so much character on its own, it is usually made as a <strong>varietal wine</strong> rather than blended with other grapes &mdash; a rare exception being Bordeaux Blanc (blended with Sémillon).
+    </p>
+    <div style="display:grid;grid-template-columns:1fr 1fr;gap:12px;">
+      <div style="background:var(--purple-light);border-radius:var(--radius-sm);padding:1rem;">
+        <div style="font-size:11px;font-weight:500;text-transform:uppercase;letter-spacing:0.08em;color:var(--purple);margin-bottom:8px;">🥶 Unoaked (classic)</div>
+        <div style="font-size:13px;color:var(--text2);line-height:1.6;">Stainless steel fermentation. Crisp, fresh, racy. Serve ice cold to highlight refreshing qualities. Lime &middot; Grapefruit &middot; Passion fruit &middot; Grass &middot; Green pepper</div>
+      </div>
+      <div style="background:var(--gold-light);border-radius:var(--radius-sm);padding:1rem;">
+        <div style="font-size:11px;font-weight:500;text-transform:uppercase;letter-spacing:0.08em;color:var(--gold);margin-bottom:8px;">🪵 Oaked (Fumé Blanc)</div>
+        <div style="font-size:13px;color:var(--text2);line-height:1.6;">Oak-aged style from Napa and Bordeaux. Serve slightly chilled. Vanilla &middot; Custard &middot; Riper tropical fruit &middot; White peach &middot; Toast</div>
+      </div>
+    </div>
+    <div class="info-box gold" style="margin-top:1rem;">
+      <strong>Cabernet Sauvignon connection:</strong> Cabernet Sauvignon is actually a cross between Sauvignon Blanc and Cabernet Franc &mdash; making Sauvignon Blanc a parent grape to one of the world&apos;s most famous reds. Other Bordeaux relatives include Merlot, Malbec, and Carménère.
+    </div>
+  </div>
+
+  <!-- Flavors -->
+  <div class="card">
+    <div class="section-eyebrow">Flavors &amp; aromas</div>
+    <div class="card-title">Vibrant, aromatic, unmistakably green</div>
+    <p style="font-size:14px;color:var(--text2);line-height:1.8;margin-bottom:1rem;">
+      Sauvignon Blanc&apos;s herbal and vegetal aromas come from <strong>pyrazines</strong> &mdash; organic flavor compounds that create &ldquo;green notes&rdquo; in the wine: grass, green bell pepper, and jalapeño. These combine with vivid fruit to create one of the most recognizable aromatic profiles in wine.
+    </p>
+    <div style="display:grid;grid-template-columns:repeat(auto-fit,minmax(130px,1fr));gap:8px;">
+      <div class="metric"><div class="metric-label">Citrus &amp; Tropical</div><div style="font-size:12px;color:var(--text2);margin-top:4px;line-height:1.5;">Lime · Grapefruit · Passion fruit · White peach</div></div>
+      <div class="metric"><div class="metric-label">Green &amp; Herbal</div><div style="font-size:12px;color:var(--text2);margin-top:4px;line-height:1.5;">Gooseberry · Grass · Green pepper · Asparagus · Elderflower</div></div>
+      <div class="metric"><div class="metric-label">Mineral</div><div style="font-size:12px;color:var(--text2);margin-top:4px;line-height:1.5;">Flint · Smoke · Chalk · Wet stone</div></div>
+      <div class="metric"><div class="metric-label">Sweet (Sauternes)</div><div style="font-size:12px;color:var(--text2);margin-top:4px;line-height:1.5;">Marmalade · Saffron · Apricot · Honey</div></div>
+    </div>
+  </div>
+
+  <!-- Pairing -->
+  <div class="card">
+    <div class="section-eyebrow">Food pairing</div>
+    <div class="card-title">When in doubt, go green</div>
+    <p style="font-size:14px;color:var(--text2);line-height:1.8;margin-bottom:1rem;">
+      Sauvignon Blanc makes a wonderful choice with herb-driven sauces, fresh cheeses, and lighter proteins. The wine is light &mdash; keep your pairings light. It matches beautifully with Asian flavors like Thai and Vietnamese cuisine.
+    </p>
+    <div style="display:grid;grid-template-columns:1fr 1fr;gap:12px;">
+      <div style="background:var(--green-light);border-radius:var(--radius-sm);padding:1rem;">
+        <div style="font-size:11px;font-weight:500;text-transform:uppercase;letter-spacing:0.08em;color:var(--green);margin-bottom:8px;">🐟 Fish &amp; Seafood</div>
+        <div style="font-size:12px;color:var(--text2);line-height:1.7;">Halibut &middot; Crab &middot; Lobster &middot; Haddock &middot; Bass &middot; Cod &middot; Salmon &middot; Oysters with mignonette &middot; Calamari &middot; Smoked salmon &middot; Squid &middot; Octopus &middot; Scallops &middot; White fish</div>
+      </div>
+      <div style="background:var(--purple-light);border-radius:var(--radius-sm);padding:1rem;">
+        <div style="font-size:11px;font-weight:500;text-transform:uppercase;letter-spacing:0.08em;color:var(--purple);margin-bottom:8px;">🥗 Vegetables &amp; Herbs</div>
+        <div style="font-size:12px;color:var(--text2);line-height:1.7;">Green vegetables &middot; Herb-driven sauces &middot; Chimichurri vinaigrettes &middot; Tofu dishes &middot; Fresh salads &middot; Thai &amp; Vietnamese cuisine</div>
+      </div>
+      <div style="background:var(--gold-light);border-radius:var(--radius-sm);padding:1rem;">
+        <div style="font-size:11px;font-weight:500;text-transform:uppercase;letter-spacing:0.08em;color:var(--gold);margin-bottom:8px;">🧀 Cheese</div>
+        <div style="font-size:12px;color:var(--text2);line-height:1.7;">Goat cheese (chèvre) &middot; Burrata &middot; Mozzarella di bufala &middot; Goat gouda &middot; Feta &middot; Parmesan &middot; Ricotta salata &middot; Crème fraîche</div>
+      </div>
+      <div style="background:var(--wine-light);border-radius:var(--radius-sm);padding:1rem;">
+        <div style="font-size:11px;font-weight:500;text-transform:uppercase;letter-spacing:0.08em;color:var(--wine);margin-bottom:8px;">🍗 Light meats</div>
+        <div style="font-size:12px;color:var(--text2);line-height:1.7;">Chicken &middot; Turkey &middot; Pork &middot; Herb-driven sauces over chicken or fish &middot; Warm goat cheese salad &middot; Caprese</div>
+      </div>
+    </div>
+    <div class="info-box green" style="margin-top:1rem;">
+      <strong>Serving temperature:</strong> Stainless steel style &mdash; serve ice cold to highlight refreshing qualities. Oak-aged (Fumé Blanc) &mdash; serve slightly chilled. Sweet Sauternes &mdash; pairs with desserts, pâté, or blue cheese.
+    </div>
+  </div>
+
+  <div class="info-box purple" style="margin-bottom:1.25rem;">
+    <strong>Making your own Sauvignon Blanc?</strong> See the White Wine Guide for the full step-by-step process, additives, and timing.
+    <span style="display:inline-block;margin-left:8px;cursor:pointer;text-decoration:underline;" onclick="document.querySelectorAll('.nav-btn')[2].click()">Go to White Wine Guide &rarr;</span>
+  </div>
+</div>
+
+<!-- PINOT NOIR GUIDE (accessible via header pill only) -->
+<div id="tab-pinotnoir" class="panel">
+  <div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:1.25rem;flex-wrap:wrap;gap:8px;">
+    <span class="badge badge-red" style="font-size:12px;padding:4px 12px;">Pinot Noir</span>
+    <span style="font-size:12px;color:var(--text3);">Light-bodied red &middot; Burgundy, France &middot; World&apos;s most popular light red</span>
+  </div>
+
+  <div style="background:var(--wine);border-radius:var(--radius);padding:2rem;margin-bottom:1.25rem;position:relative;overflow:hidden;">
+    <div style="position:absolute;top:-40px;right:-40px;width:140px;height:140px;border-radius:50%;background:rgba(255,255,255,0.05);"></div>
+    <div style="font-family:'Cormorant Garamond',serif;font-size:1.4rem;font-weight:400;font-style:italic;color:white;line-height:1.6;position:relative;">
+      The world&apos;s most popular light-bodied red wine &mdash; and one of the oldest. Pinot Noir is a versatile, delicate grape that produces red, rosé, white, and sparkling wine. Hints of red fruit, flowers, and earth with a long, smooth finish.
+    </div>
+  </div>
+
+  <!-- Type & Body -->
+  <div class="card">
+    <div class="section-eyebrow">Type &amp; Body</div>
+    <div class="card-title">Dry &mdash; light-bodied, surprisingly versatile</div>
+    <p style="font-size:14px;color:var(--text2);line-height:1.8;margin-bottom:1.25rem;">
+      Pinot Noir is a <strong>dry wine by nature</strong> &mdash; with less than 3% residual sugar. While it may not seem as dry as a Cabernet Sauvignon or Tempranillo at first taste, it is firmly in the dry category. What makes Pinot Noir remarkable is that it is one of the few red grapes commonly made into <strong>red, rosé, white, and sparkling wine</strong>.
+    </p>
+    <div style="display:grid;grid-template-columns:repeat(auto-fit,minmax(140px,1fr));gap:10px;margin-bottom:1rem;">
+      <div class="metric"><div class="metric-label">Type</div><div class="metric-val" style="font-size:1rem;">Dry</div></div>
+      <div class="metric"><div class="metric-label">Body</div><div class="metric-val" style="font-size:1rem;">Light</div></div>
+      <div class="metric"><div class="metric-label">Tannins</div><div class="metric-val" style="font-size:1rem;">Medium-low</div></div>
+      <div class="metric"><div class="metric-label">Acidity</div><div class="metric-val" style="font-size:1rem;">Medium-high</div></div>
+      <div class="metric"><div class="metric-label">Ageability</div><div class="metric-val" style="font-size:1rem;">2–18 years</div></div>
+      <div class="metric"><div class="metric-label">Serve at</div><div class="metric-val" style="font-size:1rem;">63°F / 17°C</div></div>
+    </div>
+    <div class="info-box purple">
+      <strong>Did you know?</strong> DNA analysis has revealed that Pinot Noir, Pinot Gris, and Pinot Blanc are simply <em>mutations of the same grape</em>. The grape becomes progressively redder through mutation. Blanc de Noirs Champagne uses Pinot Noir (and Pinot Meunier) as its base grape &mdash; producing white sparkling wine from red grapes.
+    </div>
+  </div>
+
+  <!-- Regions -->
+  <div class="card">
+    <div class="section-eyebrow">Regions</div>
+    <div class="card-title">Where Pinot Noir grows best</div>
+    <p style="font-size:14px;color:var(--text2);line-height:1.8;margin-bottom:1rem;">
+      Pinot Noir likely originated in <strong>Burgundy, France</strong> &mdash; one of the world&apos;s oldest wine regions, first tended by Cistercian monks in the Middle Ages. The vines prefer intermediate climates with long, cool growing seasons, often found in protected valleys or near large bodies of water. Pinot Noir enjoys the same climate as Chardonnay &mdash; the two grapes are often planted side by side.
+    </p>
+    <div class="additive-row">
+      <div>
+        <div class="additive-name">🇫🇷 Burgundy, France &mdash; 75,760 acres (the benchmark)</div>
+        <div class="additive-why">The world&apos;s most coveted Pinot Noir grows on a narrow, east-facing slope just south of Dijon. Key villages: Nuits-St-Georges, Gevrey-Chambertin, Morey-St-Denis, Chambolle-Musigny, Vougeot, Vosne-Romanée, Aloxe-Corton.<br>
+        <span style="font-size:12px;color:var(--wine);font-weight:500;">Flavors: Cherry &middot; Hibiscus &middot; Rose Petal &middot; Mushroom &middot; Potting Soil</span></div>
+      </div>
+    </div>
+    <div class="additive-row">
+      <div>
+        <div class="additive-name">🇺🇸 California, USA &mdash; 73,600 acres</div>
+        <div class="additive-why">Sonoma, Sta. Rita Hills, Santa Lucia Highlands, Willamette Valley. Pinot Noir excels in places that receive cooling Pacific breezes and morning fog &mdash; Sonoma, Southern Napa, and the Central Coast (Santa Barbara). Typically rich, fruity, and lush.<br>
+        <span style="font-size:12px;color:var(--wine);font-weight:500;">Flavors: Cherry &middot; Raspberry &middot; Allspice &middot; Darjeeling Tea &middot; Vanilla</span></div>
+      </div>
+    </div>
+    <div class="additive-row">
+      <div>
+        <div class="additive-name">🇩🇪 Germany &mdash; 29,049 acres</div>
+        <div class="additive-why">Baden, Pfalz, Rheinhessen, Württemberg. Known locally as Spätburgunder. Elegant, earthy style with high acidity.</div>
+      </div>
+    </div>
+    <div class="additive-row">
+      <div>
+        <div class="additive-name">🇳🇿 New Zealand &mdash; 10,648 acres</div>
+        <div class="additive-why">Martinborough, Marlborough, Central Otago. Central Otago is the world&apos;s southernmost wine region and produces intensely flavored, structured Pinot Noir.</div>
+      </div>
+    </div>
+    <div class="additive-row">
+      <div>
+        <div class="additive-name">🌍 Other notable regions</div>
+        <div class="additive-why">Italy &mdash; Veneto, Alto Adige, Friuli (10,082 acres) &middot; Australia &mdash; Victoria (8,693 acres) &middot; Chile &mdash; Casablanca Valley, Limari, Maipú (7,127 acres) &middot; Argentina &mdash; Río Negro (4,450 acres) &middot; South Africa &mdash; Stellenbosch, Walker Bay (2,520 acres)</div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Flavors -->
+  <div class="card">
+    <div class="section-eyebrow">Flavors &amp; aromas</div>
+    <div class="card-title">Red fruit, earth, and elegance</div>
+    <p style="font-size:14px;color:var(--text2);line-height:1.8;margin-bottom:1rem;">
+      Hints of <strong>red fruit</strong> (strawberry, cherry, cranberry), <strong>flower</strong> (hibiscus, rose petal), and <strong>spice</strong> aromas accentuated by a long, smooth finish. The earthy, forest-floor character is one of Pinot Noir&apos;s most distinctive signatures, especially in Burgundian examples. French oak barrels add subtle spice and structure without overwhelming the delicate fruit.
+    </p>
+    <div style="display:grid;grid-template-columns:repeat(auto-fit,minmax(130px,1fr));gap:8px;">
+      <div class="metric"><div class="metric-label">Red fruit</div><div style="font-size:12px;color:var(--text2);margin-top:4px;line-height:1.5;">Strawberry · Cherry · Cranberry · Raspberry</div></div>
+      <div class="metric"><div class="metric-label">Floral</div><div style="font-size:12px;color:var(--text2);margin-top:4px;line-height:1.5;">Hibiscus · Rose petal · Violet</div></div>
+      <div class="metric"><div class="metric-label">Earth &amp; Spice</div><div style="font-size:12px;color:var(--text2);margin-top:4px;line-height:1.5;">Mushroom · Potting soil · Allspice · Forest floor</div></div>
+      <div class="metric"><div class="metric-label">Oak notes</div><div style="font-size:12px;color:var(--text2);margin-top:4px;line-height:1.5;">Vanilla · Darjeeling tea · Toast · Cedar</div></div>
+    </div>
+  </div>
+
+  <!-- Pairing -->
+  <div class="card">
+    <div class="section-eyebrow">Food pairing</div>
+    <div class="card-title">Versatile &mdash; higher acidity and lower tannin make it a great match</div>
+    <p style="font-size:14px;color:var(--text2);line-height:1.8;margin-bottom:1rem;">
+      Pinot Noir&apos;s higher acidity and lower tannin make it one of the most food-friendly red wines. It pairs particularly well with duck, chicken, pork, mushrooms, and &mdash; unusually for a red &mdash; salmon.
+    </p>
+    <div style="display:grid;grid-template-columns:1fr 1fr;gap:12px;">
+      <div style="background:var(--wine-light);border-radius:var(--radius-sm);padding:1rem;">
+        <div style="font-size:11px;font-weight:500;text-transform:uppercase;letter-spacing:0.08em;color:var(--wine);margin-bottom:8px;">🍗 Poultry &amp; Meat</div>
+        <div style="font-size:12px;color:var(--text2);line-height:1.7;">Duck &middot; Chicken &middot; Pork &middot; Turkey &middot; Lamb (lighter cuts) &middot; Charcuterie &middot; Herb-roasted meats</div>
+      </div>
+      <div style="background:var(--green-light);border-radius:var(--radius-sm);padding:1rem;">
+        <div style="font-size:11px;font-weight:500;text-transform:uppercase;letter-spacing:0.08em;color:var(--green);margin-bottom:8px;">🐟 Fish &amp; Seafood</div>
+        <div style="font-size:12px;color:var(--text2);line-height:1.7;">Salmon &middot; Tuna &middot; Grilled swordfish &middot; Pinot Noir is one of the only reds that pairs beautifully with fish</div>
+      </div>
+      <div style="background:var(--purple-light);border-radius:var(--radius-sm);padding:1rem;">
+        <div style="font-size:11px;font-weight:500;text-transform:uppercase;letter-spacing:0.08em;color:var(--purple);margin-bottom:8px;">🍄 Vegetables &amp; Earth</div>
+        <div style="font-size:12px;color:var(--text2);line-height:1.7;">Mushrooms &middot; Truffle dishes &middot; Lentils &middot; Root vegetables &middot; Earthy, umami-driven vegetarian dishes</div>
+      </div>
+      <div style="background:var(--gold-light);border-radius:var(--radius-sm);padding:1rem;">
+        <div style="font-size:11px;font-weight:500;text-transform:uppercase;letter-spacing:0.08em;color:var(--gold);margin-bottom:8px;">🧀 Cheese</div>
+        <div style="font-size:12px;color:var(--text2);line-height:1.7;">Brie &middot; Camembert &middot; Gruyère &middot; Mild goat cheese &middot; Époisses &middot; Soft ripened cheeses</div>
+      </div>
+    </div>
+    <div class="info-box wine" style="margin-top:1rem;">
+      <strong>Serving temperature:</strong> Cool to the touch &mdash; 63°F (17°C). Slightly cooler than most reds to preserve Pinot Noir&apos;s delicate aromatics and bright acidity. Do not serve at room temperature.
+    </div>
+  </div>
+
+  <div class="info-box purple" style="margin-bottom:1.25rem;">
+    <strong>Making your own Pinot Noir?</strong> See the Red Wine Guide for the full step-by-step process, additives, MLF, and oak recommendations.
+    <span style="display:inline-block;margin-left:8px;cursor:pointer;text-decoration:underline;" onclick="document.querySelectorAll('.nav-btn')[3].click()">Go to Red Wine Guide &rarr;</span>
+  </div>
+</div>
+
+<!-- PINOT GRIGIO GUIDE (accessible via header pill only) -->
 <div id="tab-grigio" class="panel">
   <div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:1.25rem;flex-wrap:wrap;gap:8px;">
     <div>
-      <span class="badge badge-white" style="font-size:12px;padding:4px 12px;">Pinot Grigio — dry white</span>
-      <span style="font-size:12px;color:var(--text3);margin-left:8px;">Your clarity challenge variety</span>
-    </div>
-    <button class="btn btn-outline print-btn" onclick="window.print()">Print guide</button>
-  </div>
-
-  <!-- Step 1 -->
-  <div class="card">
-    <div class="section-eyebrow">Step 1 — Pre-fermentation</div>
-    <div class="card-title">Day 0: Must preparation</div>
-    <div class="step">
-      <div class="step-line"><div class="step-dot"></div><div class="step-connector"></div></div>
-      <div class="step-content">
-        <div class="step-title">Sanitize everything</div>
-        <div class="step-timing">Day 0, before anything else</div>
-        <div class="step-body">Use potassium metabisulfite solution (1 tsp per gallon of water) to sanitize fermenter, airlock, spoon, hydrometer. Let air dry — no rinsing needed.</div>
-      </div>
-    </div>
-    <div class="step">
-      <div class="step-line"><div class="step-dot"></div><div class="step-connector"></div></div>
-      <div class="step-content">
-        <div class="step-title">Prepare the must</div>
-        <div class="step-timing">Day 0</div>
-        <div class="step-body">Add concentrate to fermenter, top with water to 1 gallon. Stir thoroughly. Measure OG (~1.089 = 22.3°Bx). Target temperature: 58–65°F. Pinot Grigio needs the coolest ferment of all your whites — this is the #1 factor for pale straw color and crisp finish.</div>
-      </div>
-    </div>
-
-    <div class="section-eyebrow" style="margin-top:1rem;">Additives — Day 0 (clarity is everything here)</div>
-
-    <div class="additive-row">
-      <div class="additive-header"><span class="additive-name">Potassium metabisulfite (KMBS)</span><span class="badge badge-req">required</span></div>
-      <div class="additive-dose">¼ tsp per gallon (≈ 1.5g) dissolved in 50ml water — stir into must</div>
-      <div class="additive-why">Kills wild yeast and bacteria. Prevents oxidation — critical for Pinot Grigio which is highly prone to browning. Wait 24h before pitching yeast.</div>
-      <div class="warn-text">⚠ Never add yeast within 12–24h of KMBS addition</div>
-    </div>
-    <div class="additive-row">
-      <div class="additive-header"><span class="additive-name">Pectic enzyme</span><span class="badge badge-req">required — do not skip</span></div>
-      <div class="additive-dose">½ tsp per gallon — add simultaneously with KMBS or 1h after</div>
-      <div class="additive-why">This is the most likely reason your last Pinot Grigio turned dark yellow. Pectic enzyme breaks down pectin from the concentrate — without it, pectin forms a persistent golden-brown haze that no amount of fining will fully remove. Non-negotiable for this variety.</div>
-    </div>
-    <div class="additive-row">
-      <div class="additive-header"><span class="additive-name">Bentonite (pre-hydrated)</span><span class="badge badge-req">required for Pinot Grigio</span></div>
-      <div class="additive-dose">½ tsp per gallon — pre-hydrate in 50ml warm water 30 min before adding</div>
-      <div class="additive-why">Early protein crash is essential for Pinot Grigio's signature pale color. Proteins in concentrate bind with phenolics and create golden-brown haze within days of fermentation. Adding bentonite at Day 0 prevents this — unlike post-fermentation fining which only partially corrects it.</div>
-    </div>
-    <div class="additive-row">
-      <div class="additive-header"><span class="additive-name">Ascorbic acid (vitamin C)</span><span class="badge badge-opt">optional — strongly recommended</span></div>
-      <div class="additive-dose">¼ tsp per gallon at must prep — dissolve in water first</div>
-      <div class="additive-why">Antioxidant that prevents browning of phenolic compounds during fermentation. Especially valuable for Pinot Grigio — works with KMBS to keep the must pale. Also repeat at bottling.</div>
-    </div>
-    <div class="info-box gold">
-      <strong>Pinot Grigio clarity secret:</strong> The combination of pectic enzyme + bentonite + cool temperature (58–65°F) at Day 0 is what produces that crystal-clear pale straw color. Missing any one of these three is enough to cause a dark yellow result.
+      <span class="badge badge-white" style="font-size:12px;padding:4px 12px;">Pinot Grigio / Pinot Gris</span>
+      <span style="font-size:12px;color:var(--text3);margin-left:8px;">Dry white &middot; Light &middot; Crisp</span>
     </div>
   </div>
 
-  <!-- Step 2 -->
-  <div class="card">
-    <div class="section-eyebrow">Step 2 — Primary fermentation</div>
-    <div class="card-title">Days 1–7: Cool, slow, clean</div>
-    <div class="step">
-      <div class="step-line"><div class="step-dot"></div><div class="step-connector"></div></div>
-      <div class="step-content">
-        <div class="step-title">Rehydrate and pitch yeast</div>
-        <div class="step-timing">Day 1 — 24h after KMBS</div>
-        <div class="step-body">Best yeasts for Pinot Grigio: Lalvin ICV-D47 (floral, citrus, low temperature tolerant — ideal), Lalvin QA23 (tropical fruit, excellent clarifier), or Lalvin 71B (smooth, fruity). Rehydrate in Go-Ferm at 104°F, cool slowly to within 10°F of must before pitching. Attach airlock.</div>
-      </div>
-    </div>
-    <div class="step">
-      <div class="step-line"><div class="step-dot"></div><div class="step-connector"></div></div>
-      <div class="step-content">
-        <div class="step-title">Maintain cool fermentation</div>
-        <div class="step-timing">Days 2–7 · target 58–65°F strictly</div>
-        <div class="step-body">Pinot Grigio is the most temperature-sensitive of your white varieties. Even 5°F too warm causes browning and aroma loss. Use a cool room, basement, or fermenter wrap with ice packs. Check gravity every 2 days. Do not stir or open unnecessarily.</div>
-      </div>
-    </div>
-
-    <div class="section-eyebrow" style="margin-top:1rem;">Additives — During primary</div>
-    <div class="additive-row">
-      <div class="additive-header"><span class="additive-name">Go-Ferm</span><span class="badge badge-req">required (at pitch)</span></div>
-      <div class="additive-dose">1.25g per gram of yeast — dissolve in 50ml water at 104°F, rehydrate yeast in it</div>
-      <div class="additive-why">Especially important for cool fermentations — Go-Ferm ensures yeast are robust enough to ferment cleanly at 58–65°F without stalling. Unhealthy yeast at low temperatures = stuck fermentation.</div>
-      <div class="warn-text">⚠ Use in water only — never add directly to must</div>
-    </div>
-    <div class="additive-row">
-      <div class="additive-header"><span class="additive-name">Fermaid-O (organic YAN)</span><span class="badge badge-req">required</span></div>
-      <div class="additive-dose">Split into 2 doses: 0.2g/gal at 24h after pitch · 0.2g/gal when SG reaches ~1.055</div>
-      <div class="additive-why">Cool fermentations deplete YAN faster — staged Fermaid-O additions are critical to prevent H₂S (rotten egg) off-odors, which are more common at lower temperatures with stressed yeast.</div>
-      <div class="warn-text">⚠ Do not add DAP after SG ~1.055 — fusel alcohol risk</div>
+  <div style="background:var(--wine);border-radius:var(--radius);padding:2rem;margin-bottom:1.25rem;position:relative;overflow:hidden;">
+    <div style="position:absolute;top:-40px;right:-40px;width:140px;height:140px;border-radius:50%;background:rgba(255,255,255,0.05);"></div>
+    <div style="font-family:'Cormorant Garamond',serif;font-size:1.4rem;font-weight:400;font-style:italic;color:white;line-height:1.6;position:relative;">
+      Fresh, zesty, and crisp — with pear, peach, and apricot notes. A wine of delicate beauty and vibrant acidity.
     </div>
   </div>
 
-  <!-- Step 3 -->
   <div class="card">
-    <div class="section-eyebrow">Step 3 — Secondary fermentation</div>
-    <div class="card-title">Days 7–21: Finish dry and protect</div>
-    <div class="step">
-      <div class="step-line"><div class="step-dot"></div><div class="step-connector"></div></div>
-      <div class="step-content">
-        <div class="step-title">Rack to secondary — carefully</div>
-        <div class="step-timing">Day 7–10 · when SG reaches 1.010–1.020</div>
-        <div class="step-body">Siphon very carefully off gross lees. Pinot Grigio is more oxidation-prone than Chardonnay or Sauvignon Blanc — absolutely no splashing. Use a racking cane that reaches the bottom of the receiving vessel to minimize air contact. Add KMBS immediately (¼ tsp/gal dissolved in water). Maintain 58–65°F.</div>
+    <div class="section-eyebrow">The name</div>
+    <div class="card-title">Pinot Gris &amp; Pinot Grigio — same grape, different worlds</div>
+    <p style="font-size:14px;color:var(--text2);line-height:1.8;">
+      The names <strong>Pinot Gris</strong> and <strong>Pinot Grigio</strong> are technically interchangeable. Pinot Gris means &ldquo;gray Pinot&rdquo; in French, and Pinot Grigio is the Italian name for the same grape. Same variety — very different styles depending on where it is grown and how it is made.
+    </p>
+  </div>
+
+  <div class="card">
+    <div class="section-eyebrow">Regions</div>
+    <div class="card-title">Where it grows</div>
+    <div class="additive-row">
+      <div>
+        <div class="additive-name">France — Alsace &amp; Burgundy</div>
+        <div class="additive-why">Originated in Burgundy. The most famous — and occasionally sweet — Pinot Gris comes from Alsace. Richer, more unctuous style with honeyed notes.</div>
       </div>
     </div>
-    <div class="step">
-      <div class="step-line"><div class="step-dot"></div></div>
-      <div class="step-content">
-        <div class="step-title">Complete fermentation dry</div>
-        <div class="step-timing">Days 10–21 · FG target 0.990–0.996</div>
-        <div class="step-body">Pinot Grigio is best fully dry — residual sugar dulls its crisp mineral character. Confirm stable FG over 3 consecutive days. Never do MLF — it destroys the fresh acidity and pale color that define this variety.</div>
+    <div class="additive-row">
+      <div>
+        <div class="additive-name">Italy</div>
+        <div class="additive-why">Look for wines labeled &ldquo;Pinot Grigio&rdquo; from cooler climates: Alto Adige, Trentino, and Friuli-Venezia Giulia produce the crispest, most mineral expressions.</div>
       </div>
     </div>
-    <div class="info-box wine">
-      <strong>No MLF for Pinot Grigio.</strong> Malolactic fermentation converts crisp malic acid to soft lactic acid and can deepen color. For Pinot Grigio, this ruins both the flavor profile (flat, heavy) and the pale color you're targeting.
+    <div class="additive-row">
+      <div>
+        <div class="additive-name">Germany</div>
+        <div class="additive-why">Labeled as <em>Grauburgunder</em>. Look into the regions of Pfalz, Rheinhessen, and Rheingau for dry, structured examples.</div>
+      </div>
+    </div>
+    <div class="additive-row">
+      <div>
+        <div class="additive-name">Austria</div>
+        <div class="additive-why">Tiny plantings in Burgenland and Steiermark. Labeled as Pinot Gris or <em>Grauburgunder</em>.</div>
+      </div>
+    </div>
+    <div class="additive-row">
+      <div>
+        <div class="additive-name">Canada</div>
+        <div class="additive-why">Great potential from the Okanagan Valley (British Columbia) and Ontario. Fresh, fruit-forward style.</div>
+      </div>
+    </div>
+    <div class="additive-row">
+      <div>
+        <div class="additive-name">Others</div>
+        <div class="additive-why">Look into Chile, Hungary, Slovenia, and Romania for interesting expressions at great value.</div>
+      </div>
     </div>
   </div>
 
-  <!-- Step 4 -->
   <div class="card">
-    <div class="section-eyebrow">Step 4 — Clearing & cold crash</div>
-    <div class="card-title">Weeks 3–8: The clarity phase</div>
-    <div class="step">
-      <div class="step-line"><div class="step-dot"></div><div class="step-connector"></div></div>
-      <div class="step-content">
-        <div class="step-title">Fining agents</div>
-        <div class="step-timing">Week 3–4 · after FG is stable</div>
-        <div class="step-body">Apply in sequence. Wait 48h minimum between each addition.</div>
+    <div class="section-eyebrow">Type &amp; style</div>
+    <div class="card-title">Dry — but with three distinct expressions</div>
+    <p style="font-size:14px;color:var(--text2);line-height:1.8;margin-bottom:1rem;">
+      Pinot Grigio often tastes less sweet than Chardonnay because of its high acidity. There are three main types:
+    </p>
+    <div style="display:grid;grid-template-columns:repeat(auto-fit,minmax(170px,1fr));gap:10px;margin-bottom:1.25rem;">
+      <div style="background:var(--purple-light);border-radius:var(--radius-sm);padding:1rem;">
+        <div style="font-size:11px;font-weight:500;text-transform:uppercase;letter-spacing:0.08em;color:var(--purple);margin-bottom:6px;">Minerally &amp; Dry</div>
+        <div style="font-size:13px;color:var(--text2);line-height:1.5;">Classic Italian style. Brilliant acidity, saline minerality, bitter almond finish. Alto Adige is the benchmark.</div>
+      </div>
+      <div style="background:var(--gold-light);border-radius:var(--radius-sm);padding:1rem;">
+        <div style="font-size:11px;font-weight:500;text-transform:uppercase;letter-spacing:0.08em;color:var(--gold);margin-bottom:6px;">Fruity &amp; Dry</div>
+        <div style="font-size:13px;color:var(--text2);line-height:1.5;">American and New World style. More exaggerated fruit flavors — pear, peach, apple — with softer acidity.</div>
+      </div>
+      <div style="background:var(--wine-light);border-radius:var(--radius-sm);padding:1rem;">
+        <div style="font-size:11px;font-weight:500;text-transform:uppercase;letter-spacing:0.08em;color:var(--wine);margin-bottom:6px;">Fruity &amp; Sweet</div>
+        <div style="font-size:13px;color:var(--text2);line-height:1.5;">The exception. Either an inexpensive supermarket wine, or the rare slightly-sweet Alsatian Pinot Gris with botrytis honey notes.</div>
       </div>
     </div>
-    <div class="additive-row">
-      <div class="additive-header"><span class="additive-name">Kieselsol + Chitosan</span><span class="badge badge-req">required</span></div>
-      <div class="additive-dose">Kieselsol: 1ml/gallon → wait 1h → Chitosan: 5ml/gallon</div>
-      <div class="additive-why">The best fining combo for Pinot Grigio. Kieselsol (negatively charged silica) and Chitosan (positively charged) attract and drop all remaining particles as sediment. Produces brilliant clarity in 1–2 weeks without stripping the delicate mineral character.</div>
-    </div>
-    <div class="additive-row">
-      <div class="additive-header"><span class="additive-name">Isinglass</span><span class="badge badge-opt">optional — use if still hazy</span></div>
-      <div class="additive-dose">0.5g/gallon pre-dissolved in warm water — add 48h after Chitosan if needed</div>
-      <div class="additive-why">Fish-derived protein fining. Very gentle on delicate white wine flavor. Use only if kieselsol+chitosan didn't fully clear the wine — over-fining strips flavor.</div>
-    </div>
-    <div class="additive-row">
-      <div class="additive-header"><span class="additive-name">Cold crash</span><span class="badge badge-req">essential for Pinot Grigio</span></div>
-      <div class="additive-dose">Chill to 32–38°F for 7–10 days before bottling</div>
-      <div class="additive-why">More aggressive cold crash than other whites. Precipitates tartrate crystals, drops any remaining protein haze, and locks in the pale color. This step transforms a hazy golden wine into the crystal-clear pale straw Pinot Grigio you want. Do not skip.</div>
+    <div class="info-box purple">
+      <strong>Pinot Grigio vs Pinot Blanc:</strong> Blanc is made from a green grape. Grigio (Gris) is made from a light red grape — the juice is separated from the skins immediately to keep the wine pale. This is why Pinot Grigio typically originates from Italy and has that characteristic faint copper-pink tint before clearing.
     </div>
   </div>
 
-  <!-- Step 5 -->
   <div class="card">
-    <div class="section-eyebrow">Step 5 — Bottling</div>
-    <div class="card-title">Weeks 8–12: Into the bottle</div>
+    <div class="section-eyebrow">Flavors &amp; aromas</div>
+    <div class="card-title">What to expect in the glass</div>
+    <p style="font-size:14px;color:var(--text2);line-height:1.8;margin-bottom:1rem;">
+      Primary fruit flavors: <strong>lime, lemon, pear, white nectarine, and apple</strong> — with a slightly richer, more oily texture than Sauvignon Blanc. Depending on where the grapes are grown, Pinot Grigio can take on faint honeyed notes, floral aromas like honeysuckle, and a saline-like minerality.
+    </p>
+    <div style="display:grid;grid-template-columns:repeat(auto-fit,minmax(130px,1fr));gap:8px;">
+      <div class="metric"><div class="metric-label">Citrus</div><div style="font-size:13px;color:var(--text2);margin-top:4px;">Lime · Lemon</div></div>
+      <div class="metric"><div class="metric-label">Stone fruit</div><div style="font-size:13px;color:var(--text2);margin-top:4px;">Pear · Peach · Nectarine</div></div>
+      <div class="metric"><div class="metric-label">Floral</div><div style="font-size:13px;color:var(--text2);margin-top:4px;">Honeysuckle · Blossom</div></div>
+      <div class="metric"><div class="metric-label">Mineral</div><div style="font-size:13px;color:var(--text2);margin-top:4px;">Saline · Chalk · Flint</div></div>
+    </div>
+  </div>
+
+  <div class="card">
+    <div class="section-eyebrow">Taste profile by origin</div>
+    <div class="card-title">Acidity: Medium-high to high</div>
     <div class="additive-row">
-      <div class="additive-header"><span class="additive-name">KMBS final dose</span><span class="badge badge-req">required</span></div>
-      <div class="additive-dose">¼ tsp per gallon dissolved in 50ml water — add and stir gently 24h before bottling</div>
-      <div class="additive-why">Antioxidant protection in the bottle. Critical for Pinot Grigio — without this, even a crystal-clear pale wine will turn golden-yellow in the bottle within 3–6 months.</div>
+      <div>
+        <div class="additive-name">Italian Pinot Grigio</div>
+        <div class="additive-why">Usually totally dry with brilliant acidity and a distinctive bitter almond finish. The leanest, most mineral style.</div>
+      </div>
     </div>
     <div class="additive-row">
-      <div class="additive-header"><span class="additive-name">Ascorbic acid (vitamin C)</span><span class="badge badge-req">required for Pinot Grigio</span></div>
-      <div class="additive-dose">¼ tsp per gallon — dissolve and add with KMBS before bottling</div>
-      <div class="additive-why">Second antioxidant layer. Works synergistically with KMBS. Especially important for Pinot Grigio because this variety is prone to oxidative browning in the bottle. This combination is your best insurance for long-term pale color.</div>
+      <div>
+        <div class="additive-name">French Pinot Gris (Alsace)</div>
+        <div class="additive-why">Fleshy and more unctuous with faint honey notes from botrytis. Richer texture, lower acidity, longer finish.</div>
+      </div>
     </div>
-    <div class="info-box green">
-      <strong>Drinking window:</strong> Pinot Grigio is best young and fresh — drink within 6–12 months of bottling. Unlike Chardonnay, it does not benefit from extended aging. Serve cold (45–50°F) for maximum crispness and pale color appearance.
+    <div class="additive-row">
+      <div>
+        <div class="additive-name">American Pinot Grigio</div>
+        <div class="additive-why">More exaggerated fruit flavors and less acidity than European counterparts. Approachable and easy-drinking style.</div>
+      </div>
     </div>
-    <div class="info-box purple" style="margin-top:0.75rem;">
-      <strong>Your next batch goal:</strong> With pectic enzyme + bentonite at Day 0, ferment at 58–65°F, cold crash at 32–38°F, and KMBS + ascorbic acid at bottling — your Pinot Grigio should come out pale straw to nearly water-white, matching that Sauvignon Blanc clarity you're aiming for.
+  </div>
+
+  <div class="card">
+    <div class="section-eyebrow">Serving &amp; food pairing</div>
+    <div class="card-title">Serve ice-cold at 45°F (7°C)</div>
+    <p style="font-size:14px;color:var(--text2);line-height:1.8;margin-bottom:1rem;">
+      With its zesty and refreshing acidity, Pinot Grigio pairs beautifully with fresh vegetables, raw fish, and lighter meals. Fish and shellfish are the classic partners.
+    </p>
+    <div style="display:grid;grid-template-columns:1fr 1fr;gap:12px;">
+      <div style="background:var(--green-light);border-radius:var(--radius-sm);padding:1rem;">
+        <div style="font-size:11px;font-weight:500;text-transform:uppercase;letter-spacing:0.08em;color:var(--green);margin-bottom:8px;">Seafood &amp; Fish</div>
+        <div style="font-size:12px;color:var(--text2);line-height:1.7;">Tilapia · Scallops · Sea Bass · Perch · Sole · Haddock · Trout · Cod · Redfish · Halibut · Snapper · Mussels · Clams · Oysters</div>
+      </div>
+      <div style="background:var(--purple-light);border-radius:var(--radius-sm);padding:1rem;">
+        <div style="font-size:11px;font-weight:500;text-transform:uppercase;letter-spacing:0.08em;color:var(--purple);margin-bottom:8px;">Meat &amp; Charcuterie</div>
+        <div style="font-size:12px;color:var(--text2);line-height:1.7;">Chicken · Turkey · Cured pork &amp; duck · Moules-frites · Ceviche · Sushi · Light cream sauces</div>
+      </div>
+      <div style="background:var(--gold-light);border-radius:var(--radius-sm);padding:1rem;">
+        <div style="font-size:11px;font-weight:500;text-transform:uppercase;letter-spacing:0.08em;color:var(--gold);margin-bottom:8px;">Cheese</div>
+        <div style="font-size:12px;color:var(--text2);line-height:1.7;">Semi-soft to firm cow&apos;s and sheep&apos;s milk cheeses &mdash; Gruy&egrave;re &middot; Muenster &middot; Grana Padano</div>
+      </div>
+      <div style="background:var(--wine-light);border-radius:var(--radius-sm);padding:1rem;">
+        <div style="font-size:11px;font-weight:500;text-transform:uppercase;letter-spacing:0.08em;color:var(--wine);margin-bottom:8px;">Dishes</div>
+        <div style="font-size:12px;color:var(--text2);line-height:1.7;">Ceviche &middot; Sushi &middot; Moules-frites &middot; Tilapia with cream sauce &middot; Fresh vegetables &middot; Light pasta</div>
+      </div>
     </div>
+  </div>
+
+  <div class="info-box purple" style="margin-bottom:1.25rem;">
+    <strong>Making your own Pinot Grigio?</strong> See the Clarity &amp; Color tab for the full guide on achieving that pale straw color — and what went wrong with your previous batch.
+    <span style="display:inline-block;margin-left:8px;cursor:pointer;text-decoration:underline;" onclick="showTabFromHeader('clarity', document.querySelector('.vpill:nth-child(3)'));">Go to Clarity guide &rarr;</span>
   </div>
 </div>
 
@@ -1099,6 +1638,10 @@
         <div style="font-size:11px;font-weight:500;text-transform:uppercase;letter-spacing:0.08em;color:var(--text3);margin-bottom:6px;">Pinot Noir</div>
         <div style="font-size:13px;color:var(--text2);line-height:1.5;">Silky and elegant, with cherry, earth, and spice. Washington's volcanic soils give Pinot Noir a distinctive mineral edge.</div>
       </div>
+      <div style="background:var(--surface2);border-radius:var(--radius-sm);padding:1rem;">
+        <div style="font-size:11px;font-weight:500;text-transform:uppercase;letter-spacing:0.08em;color:var(--text3);margin-bottom:6px;">Cabernet Sauvignon</div>
+        <div style="font-size:13px;color:var(--text2);line-height:1.5;">Washington's signature red — bold, structured, with dark fruit, cassis, and firm tannins softened by the region's long, warm days and cool nights.</div>
+      </div>
     </div>
   </div>
 
@@ -1137,7 +1680,8 @@ const varieties = {
   chard: { ph: '3.2–3.4', ta: '6.0–7.5', type: 'White', style: 'Dry / Oaked', note: 'Chardonnay works well at a moderate acid level. Target pH 3.3 for dry style. Optional MLF during secondary adds buttery, creamy character (skip for crisp style). Ferment at 60–68°F.' },
   sauv: { ph: '3.1–3.3', ta: '6.5–8.0', type: 'White', style: 'Dry / Crisp', note: 'Sauvignon Blanc needs high acidity for its signature freshness. Target pH 3.1–3.2. Never do MLF — it destroys the herbaceous, citrus character. Cold crash before bottling for Sauvignon-clear color.' },
   grigio: { ph: '3.1–3.3', ta: '6.0–7.5', type: 'White', style: 'Dry / Light', note: 'Pinot Grigio needs high acidity and a cool ferment (58–65°F) for its hallmark pale straw color and crisp finish. Never do MLF. Pectic enzyme + early bentonite are critical — skipping these caused your dark yellow batch. Cold crash is essential.' },
-  pinot: { ph: '3.4–3.6', ta: '5.5–6.5', type: 'Red', style: 'Dry / Elegant', note: 'Pinot Noir is delicate — lower acid than whites. MLF strongly recommended — converts malic to lactic acid for silky mouthfeel. Target pH 3.5. Use French oak if any oak addition.' }
+  pinot: { ph: '3.4–3.6', ta: '5.5–6.5', type: 'Red', style: 'Dry / Elegant', note: 'Pinot Noir is delicate — lower acid than whites. MLF strongly recommended — converts malic to lactic acid for silky mouthfeel. Target pH 3.5. Use French oak if any oak addition.' },
+  cab: { ph: '3.5–3.7', ta: '5.5–6.5', type: 'Red', style: 'Dry / Bold', note: 'Cabernet Sauvignon needs higher pH than Pinot Noir to soften its naturally firm tannins. MLF is required — without it the wine will taste harsh and green. Extended aging (12–24 months) is essential. American or French oak strongly recommended for structure and complexity.' }
 };
 
 function setVariety(key, btn) {
@@ -1198,6 +1742,29 @@ function showTab(id, btn) {
   document.querySelectorAll('.nav-btn').forEach(b => b.classList.remove('active'));
   document.getElementById('tab-' + id).classList.add('active');
   btn.classList.add('active');
+  // sync header pills
+  document.querySelectorAll('.vpill').forEach(p => p.classList.remove('active-pill'));
+  const pillMap = {'white': ['Chardonnay','Sauvignon Blanc'], 'grigio': ['Pinot Grigio'], 'red': ['Pinot Noir'], 'calc': ['Cabernet Sauvignon']};
+  if (pillMap[id]) {
+    document.querySelectorAll('.vpill').forEach(p => {
+      if (pillMap[id].includes(p.textContent.trim())) p.classList.add('active-pill');
+    });
+  }
+}
+
+function showTabFromHeader(id, pill) {
+  document.querySelectorAll('.panel').forEach(p => p.classList.remove('active'));
+  document.querySelectorAll('.nav-btn').forEach(b => b.classList.remove('active'));
+  document.getElementById('tab-' + id).classList.add('active');
+  // highlight matching nav button
+  document.querySelectorAll('.nav-btn').forEach(b => {
+    if (b.getAttribute('onclick') && b.getAttribute('onclick').includes("'" + id + "'")) b.classList.add('active');
+  });
+  // highlight pill
+  document.querySelectorAll('.vpill').forEach(p => p.classList.remove('active-pill'));
+  pill.classList.add('active-pill');
+  // scroll to top of main content
+  document.querySelector('main').scrollIntoView({behavior: 'smooth'});
 }
 
 // TIMELINE
