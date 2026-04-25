@@ -383,8 +383,8 @@
   @media print {
     header { background: var(--wine) !important; -webkit-print-color-adjust: exact; print-color-adjust: exact; }
     nav { display: none; }
-    .panel { display: block !important; page-break-before: always; }
-    .panel:first-of-type { page-break-before: avoid; }
+    .panel.active { display: block !important; page-break-before: always; }
+    .panel.active:first-of-type { page-break-before: avoid; }
     .btn, .print-btn { display: none; }
     .log-delete { display: none; }
   }
@@ -407,9 +407,9 @@
       <div class="header-title">Valles del Colibrí</div>
       <div class="header-sub">Vibrant · Graceful · Full of Life — Washington Wines</div>
       <div class="variety-pills">
+        <button class="vpill" onclick="showTabFromHeader('grigio', this)">Pinot Grigio</button>
         <button class="vpill" onclick="showTabFromHeader('chard', this)">Chardonnay</button>
         <button class="vpill" onclick="showTabFromHeader('sauv', this)">Sauvignon Blanc</button>
-        <button class="vpill" onclick="showTabFromHeader('grigio', this)">Pinot Grigio</button>
         <button class="vpill" onclick="showTabFromHeader('pinotnoir', this)">Pinot Noir</button>
         <button class="vpill" onclick="showTabFromHeader('cabsauv', this)">Cabernet Sauvignon</button>
       </div>
@@ -460,9 +460,9 @@
   <div class="card">
     <div class="section-eyebrow">pH & TA targets by variety</div>
     <div class="variety-btns">
+      <button class="vbtn" onclick="setVariety('grigio', this)">Pinot Grigio</button>
       <button class="vbtn active" onclick="setVariety('chard', this)">Chardonnay</button>
       <button class="vbtn" onclick="setVariety('sauv', this)">Sauvignon Blanc</button>
-      <button class="vbtn" onclick="setVariety('grigio', this)">Pinot Grigio</button>
       <button class="vbtn" onclick="setVariety('pinot', this)">Pinot Noir</button>
       <button class="vbtn" onclick="setVariety('cab', this)">Cabernet Sauvignon</button>
     </div>
@@ -1217,28 +1217,17 @@
   </div>
 </div>
 
-<!-- PINOT GRIGIO GUIDE (accessible via header pill only) -->
+<!-- PINOT GRIGIO  GUIDE (accessible via header pill only) -->
 <div id="tab-grigio" class="panel">
   <div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:1.25rem;flex-wrap:wrap;gap:8px;">
-    <div>
-      <span class="badge badge-white" style="font-size:12px;padding:4px 12px;">Pinot Grigio / Pinot Gris</span>
-      <span style="font-size:12px;color:var(--text3);margin-left:8px;">Dry white &middot; Light &middot; Crisp</span>
-    </div>
+    <span class="badge badge-white" style="font-size:12px;padding:4px 12px;">Pinot Grigio</span>
+    <span style="font-size:12px;color:var(--text3);">AKA Morillon &middot; Chablis (France) &middot; Dry white</span>
   </div>
 
-  <div style="background:var(--wine);border-radius:var(--radius);padding:2rem;margin-bottom:1.25rem;position:relative;overflow:hidden;">
-    <div style="position:absolute;top:-40px;right:-40px;width:140px;height:140px;border-radius:50%;background:rgba(255,255,255,0.05);"></div>
-    <div style="font-family:'Cormorant Garamond',serif;font-size:1.4rem;font-weight:400;font-style:italic;color:white;line-height:1.6;position:relative;">
-      Fresh, zesty, and crisp — with pear, peach, and apricot notes. A wine of delicate beauty and vibrant acidity.
+  <div style="background:var(--wine);border-radius:var(--radius);padding:2rem;margin-bottom:1.25rem;">
+    <div style="font-family:'Cormorant Garamond',serif;font-size:1.4rem;font-weight:400;font-style:italic;color:white;line-height:1.6;">
+      Fresh, zesty, and crisp white wine with pear, peach, and apricot notes. The names Pinot Gris and Pinot Grigio are technically interchangeable &mdash; Pinot Gris means gray Pinot in French, and Pinot Grigio is the Italian name for the same grape.
     </div>
-  </div>
-
-  <div class="card">
-    <div class="section-eyebrow">The name</div>
-    <div class="card-title">Pinot Gris &amp; Pinot Grigio — same grape, different worlds</div>
-    <p style="font-size:14px;color:var(--text2);line-height:1.8;">
-      The names <strong>Pinot Gris</strong> and <strong>Pinot Grigio</strong> are technically interchangeable. Pinot Gris means &ldquo;gray Pinot&rdquo; in French, and Pinot Grigio is the Italian name for the same grape. Same variety — very different styles depending on where it is grown and how it is made.
-    </p>
   </div>
 
   <div class="card">
@@ -1246,26 +1235,26 @@
     <div class="card-title">Where it grows</div>
     <div class="additive-row">
       <div>
-        <div class="additive-name">France — Alsace &amp; Burgundy</div>
-        <div class="additive-why">Originated in Burgundy. The most famous — and occasionally sweet — Pinot Gris comes from Alsace. Richer, more unctuous style with honeyed notes.</div>
+        <div class="additive-name">France &mdash; Burgundy (origin) &amp; Alsace</div>
+        <div class="additive-why">Originated in Burgundy. The most famous sweet Pinot Gris comes from Alsace, France &mdash; richer, more unctuous with honey notes from botrytis.</div>
       </div>
     </div>
     <div class="additive-row">
       <div>
         <div class="additive-name">Italy</div>
-        <div class="additive-why">Look for wines labeled &ldquo;Pinot Grigio&rdquo; from cooler climates: Alto Adige, Trentino, and Friuli-Venezia Giulia produce the crispest, most mineral expressions.</div>
+        <div class="additive-why">Look for wines labeled Pinot Grigio from cooler climates: Alto Adige, Trentino, and Friuli-Venezia Giulia produce the crispest, most mineral expressions.</div>
       </div>
     </div>
     <div class="additive-row">
       <div>
-        <div class="additive-name">Germany</div>
-        <div class="additive-why">Labeled as <em>Grauburgunder</em>. Look into the regions of Pfalz, Rheinhessen, and Rheingau for dry, structured examples.</div>
+        <div class="additive-name">Germany &mdash; Grauburgunder</div>
+        <div class="additive-why">Commonly labeled as Grauburgunder. Look into the regions of Pfalz, Rheinhessen, and Rheingau for dry, structured examples.</div>
       </div>
     </div>
     <div class="additive-row">
       <div>
         <div class="additive-name">Austria</div>
-        <div class="additive-why">Tiny plantings in Burgenland and Steiermark. Labeled as Pinot Gris or <em>Grauburgunder</em>.</div>
+        <div class="additive-why">Tiny plantings in Burgenland and Steiermark. Labeled as Pinot Gris or Grauburgunder.</div>
       </div>
     </div>
     <div class="additive-row">
@@ -1283,11 +1272,9 @@
   </div>
 
   <div class="card">
-    <div class="section-eyebrow">Type &amp; style</div>
-    <div class="card-title">Dry — but with three distinct expressions</div>
-    <p style="font-size:14px;color:var(--text2);line-height:1.8;margin-bottom:1rem;">
-      Pinot Grigio often tastes less sweet than Chardonnay because of its high acidity. There are three main types:
-    </p>
+    <div class="section-eyebrow">Type &amp; Style</div>
+    <div class="card-title">Dry &mdash; but three distinct expressions</div>
+    <p style="font-size:14px;color:var(--text2);line-height:1.8;margin-bottom:1rem;">Pinot Grigio often tastes less sweet than Chardonnay because of its high acidity. There are three main types:</p>
     <div style="display:grid;grid-template-columns:repeat(auto-fit,minmax(170px,1fr));gap:10px;margin-bottom:1.25rem;">
       <div style="background:var(--purple-light);border-radius:var(--radius-sm);padding:1rem;">
         <div style="font-size:11px;font-weight:500;text-transform:uppercase;letter-spacing:0.08em;color:var(--purple);margin-bottom:6px;">Minerally &amp; Dry</div>
@@ -1295,34 +1282,32 @@
       </div>
       <div style="background:var(--gold-light);border-radius:var(--radius-sm);padding:1rem;">
         <div style="font-size:11px;font-weight:500;text-transform:uppercase;letter-spacing:0.08em;color:var(--gold);margin-bottom:6px;">Fruity &amp; Dry</div>
-        <div style="font-size:13px;color:var(--text2);line-height:1.5;">American and New World style. More exaggerated fruit flavors — pear, peach, apple — with softer acidity.</div>
+        <div style="font-size:13px;color:var(--text2);line-height:1.5;">New World style. More exaggerated fruit flavors &mdash; pear, peach, apple &mdash; with softer acidity.</div>
       </div>
       <div style="background:var(--wine-light);border-radius:var(--radius-sm);padding:1rem;">
         <div style="font-size:11px;font-weight:500;text-transform:uppercase;letter-spacing:0.08em;color:var(--wine);margin-bottom:6px;">Fruity &amp; Sweet</div>
-        <div style="font-size:13px;color:var(--text2);line-height:1.5;">The exception. Either an inexpensive supermarket wine, or the rare slightly-sweet Alsatian Pinot Gris with botrytis honey notes.</div>
+        <div style="font-size:13px;color:var(--text2);line-height:1.5;">The exception: either an inexpensive supermarket wine, or the rare slightly-sweet Alsatian Pinot Gris with botrytis honey notes.</div>
       </div>
     </div>
     <div class="info-box purple">
-      <strong>Pinot Grigio vs Pinot Blanc:</strong> Blanc is made from a green grape. Grigio (Gris) is made from a light red grape — the juice is separated from the skins immediately to keep the wine pale. This is why Pinot Grigio typically originates from Italy and has that characteristic faint copper-pink tint before clearing.
+      <strong>Pinot Grigio vs Pinot Blanc:</strong> Blanc is made from a green grape. Gris is made from a light red grape &mdash; the juice is separated from the skins immediately to keep the wine pale. This is why Pinot Grigio typically originates from Italy and has that faint copper tint before clearing.
     </div>
   </div>
 
   <div class="card">
-    <div class="section-eyebrow">Flavors &amp; aromas</div>
+    <div class="section-eyebrow">Flavors &amp; Aromas</div>
     <div class="card-title">What to expect in the glass</div>
-    <p style="font-size:14px;color:var(--text2);line-height:1.8;margin-bottom:1rem;">
-      Primary fruit flavors: <strong>lime, lemon, pear, white nectarine, and apple</strong> — with a slightly richer, more oily texture than Sauvignon Blanc. Depending on where the grapes are grown, Pinot Grigio can take on faint honeyed notes, floral aromas like honeysuckle, and a saline-like minerality.
-    </p>
+    <p style="font-size:14px;color:var(--text2);line-height:1.8;margin-bottom:1rem;">Expect flavors of lemon, yellow apple, and white peach with a slightly richer, more oily texture. Primary fruit flavors: lime, lemon, pear, white nectarine, and apple. Depending on where the grapes are grown, Pinot Grigio can take on faint honeyed notes, floral aromas like honeysuckle, and a saline-like minerality.</p>
     <div style="display:grid;grid-template-columns:repeat(auto-fit,minmax(130px,1fr));gap:8px;">
-      <div class="metric"><div class="metric-label">Citrus</div><div style="font-size:13px;color:var(--text2);margin-top:4px;">Lime · Lemon</div></div>
-      <div class="metric"><div class="metric-label">Stone fruit</div><div style="font-size:13px;color:var(--text2);margin-top:4px;">Pear · Peach · Nectarine</div></div>
-      <div class="metric"><div class="metric-label">Floral</div><div style="font-size:13px;color:var(--text2);margin-top:4px;">Honeysuckle · Blossom</div></div>
-      <div class="metric"><div class="metric-label">Mineral</div><div style="font-size:13px;color:var(--text2);margin-top:4px;">Saline · Chalk · Flint</div></div>
+      <div class="metric"><div class="metric-label">Citrus</div><div style="font-size:12px;color:var(--text2);margin-top:4px;">Lime &middot; Lemon</div></div>
+      <div class="metric"><div class="metric-label">Stone fruit</div><div style="font-size:12px;color:var(--text2);margin-top:4px;">Pear &middot; Peach &middot; Nectarine &middot; Apple</div></div>
+      <div class="metric"><div class="metric-label">Floral</div><div style="font-size:12px;color:var(--text2);margin-top:4px;">Honeysuckle &middot; Blossom &middot; Honey</div></div>
+      <div class="metric"><div class="metric-label">Mineral</div><div style="font-size:12px;color:var(--text2);margin-top:4px;">Saline &middot; Chalk &middot; Flint</div></div>
     </div>
   </div>
 
   <div class="card">
-    <div class="section-eyebrow">Taste profile by origin</div>
+    <div class="section-eyebrow">Taste Profile by Origin</div>
     <div class="card-title">Acidity: Medium-high to high</div>
     <div class="additive-row">
       <div>
@@ -1345,35 +1330,29 @@
   </div>
 
   <div class="card">
-    <div class="section-eyebrow">Serving &amp; food pairing</div>
-    <div class="card-title">Serve ice-cold at 45°F (7°C)</div>
-    <p style="font-size:14px;color:var(--text2);line-height:1.8;margin-bottom:1rem;">
-      With its zesty and refreshing acidity, Pinot Grigio pairs beautifully with fresh vegetables, raw fish, and lighter meals. Fish and shellfish are the classic partners.
-    </p>
+    <div class="section-eyebrow">Serving &amp; Food Pairing</div>
+    <div class="card-title">Serve ice-cold at 45&deg;F (7&deg;C)</div>
+    <p style="font-size:14px;color:var(--text2);line-height:1.8;margin-bottom:1rem;">With its zesty and refreshing acidity, Pinot Gris pairs beautifully with fresh vegetables, raw fish, and lighter meals. Fish and shellfish are the classic partners. Also great with ceviche, sushi, moules-frites, or light flaky tilapia with cream sauce.</p>
     <div style="display:grid;grid-template-columns:1fr 1fr;gap:12px;">
       <div style="background:var(--green-light);border-radius:var(--radius-sm);padding:1rem;">
-        <div style="font-size:11px;font-weight:500;text-transform:uppercase;letter-spacing:0.08em;color:var(--green);margin-bottom:8px;">Seafood &amp; Fish</div>
-        <div style="font-size:12px;color:var(--text2);line-height:1.7;">Tilapia · Scallops · Sea Bass · Perch · Sole · Haddock · Trout · Cod · Redfish · Halibut · Snapper · Mussels · Clams · Oysters</div>
+        <div style="font-size:11px;font-weight:500;text-transform:uppercase;letter-spacing:0.08em;color:var(--green);margin-bottom:8px;">Fish &amp; Shellfish</div>
+        <div style="font-size:12px;color:var(--text2);line-height:1.7;">Tilapia &middot; Scallops &middot; Sea Bass &middot; Perch &middot; Sole &middot; Haddock &middot; Trout &middot; Cod &middot; Redfish &middot; Halibut &middot; Snapper &middot; Mussels &middot; Clams &middot; Oysters</div>
       </div>
       <div style="background:var(--purple-light);border-radius:var(--radius-sm);padding:1rem;">
-        <div style="font-size:11px;font-weight:500;text-transform:uppercase;letter-spacing:0.08em;color:var(--purple);margin-bottom:8px;">Meat &amp; Charcuterie</div>
-        <div style="font-size:12px;color:var(--text2);line-height:1.7;">Chicken · Turkey · Cured pork &amp; duck · Moules-frites · Ceviche · Sushi · Light cream sauces</div>
+        <div style="font-size:11px;font-weight:500;text-transform:uppercase;letter-spacing:0.08em;color:var(--purple);margin-bottom:8px;">Meat &amp; Poultry</div>
+        <div style="font-size:12px;color:var(--text2);line-height:1.7;">Chicken &middot; Turkey &middot; Cured pork &middot; Duck &middot; Ceviche &middot; Sushi &middot; Moules-frites &middot; Light cream sauces</div>
       </div>
       <div style="background:var(--gold-light);border-radius:var(--radius-sm);padding:1rem;">
         <div style="font-size:11px;font-weight:500;text-transform:uppercase;letter-spacing:0.08em;color:var(--gold);margin-bottom:8px;">Cheese</div>
-        <div style="font-size:12px;color:var(--text2);line-height:1.7;">Semi-soft to firm cow&apos;s and sheep&apos;s milk cheeses &mdash; Gruy&egrave;re &middot; Muenster &middot; Grana Padano</div>
+        <div style="font-size:12px;color:var(--text2);line-height:1.7;">Semi-soft to firm cow&apos;s and sheep&apos;s milk &middot; Gruy&egrave;re &middot; Muenster &middot; Grana Padano</div>
       </div>
       <div style="background:var(--wine-light);border-radius:var(--radius-sm);padding:1rem;">
-        <div style="font-size:11px;font-weight:500;text-transform:uppercase;letter-spacing:0.08em;color:var(--wine);margin-bottom:8px;">Dishes</div>
-        <div style="font-size:12px;color:var(--text2);line-height:1.7;">Ceviche &middot; Sushi &middot; Moules-frites &middot; Tilapia with cream sauce &middot; Fresh vegetables &middot; Light pasta</div>
+        <div style="font-size:11px;font-weight:500;text-transform:uppercase;letter-spacing:0.08em;color:var(--wine);margin-bottom:8px;">Vegetables &amp; Light Dishes</div>
+        <div style="font-size:12px;color:var(--text2);line-height:1.7;">Fresh vegetables &middot; Light pasta &middot; Salads &middot; Herb-based dishes &middot; Asian cuisine</div>
       </div>
     </div>
   </div>
 
-  <div class="info-box purple" style="margin-bottom:1.25rem;">
-    <strong>Making your own Pinot Grigio?</strong> See the Clarity &amp; Color tab for the full guide on achieving that pale straw color — and what went wrong with your previous batch.
-    <span style="display:inline-block;margin-left:8px;cursor:pointer;text-decoration:underline;" onclick="showTabFromHeader('clarity', document.querySelector('.vpill:nth-child(3)'));">Go to Clarity guide &rarr;</span>
-  </div>
 </div>
 
 <!-- RED WINE GUIDE -->
@@ -1755,16 +1734,13 @@ function showTab(id, btn) {
 function showTabFromHeader(id, pill) {
   document.querySelectorAll('.panel').forEach(p => p.classList.remove('active'));
   document.querySelectorAll('.nav-btn').forEach(b => b.classList.remove('active'));
-  document.getElementById('tab-' + id).classList.add('active');
-  // highlight matching nav button
-  document.querySelectorAll('.nav-btn').forEach(b => {
-    if (b.getAttribute('onclick') && b.getAttribute('onclick').includes("'" + id + "'")) b.classList.add('active');
-  });
+  var target = document.getElementById('tab-' + id);
+  if (target) target.classList.add('active');
   // highlight pill
   document.querySelectorAll('.vpill').forEach(p => p.classList.remove('active-pill'));
   pill.classList.add('active-pill');
-  // scroll to top of main content
-  document.querySelector('main').scrollIntoView({behavior: 'smooth'});
+  // scroll nav into view so content is visible
+  window.scrollTo({top: 0, behavior: 'smooth'});
 }
 
 // TIMELINE
