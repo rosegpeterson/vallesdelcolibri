@@ -427,29 +427,30 @@
       <div class="variety-pills">
         <!-- White Wines dropdown -->
         <div class="pill-group">
-          <button class="vpill vpill-drop" onclick="toggleDrop('drop-white',event)">White Wines ▾</button>
+          <button class="vpill vpill-drop" data-drop="drop-white">White Wines ▾</button>
           <div id="drop-white" class="drop-menu">
-            <button onclick="showTabFromHeader('grigio',this);closeDrop()">Pinot Grigio</button>
-            <button onclick="showTabFromHeader('chard',this);closeDrop()">Chardonnay</button>
-            <button onclick="showTabFromHeader('sauv',this);closeDrop()">Sauvignon Blanc</button>
+            <button data-tab="grigio">Pinot Grigio</button>
+            <button data-tab="chard">Chardonnay</button>
+            <button data-tab="sauv">Sauvignon Blanc</button>
           </div>
         </div>
         <!-- Red Wines dropdown -->
         <div class="pill-group">
-          <button class="vpill vpill-drop" onclick="toggleDrop('drop-red',event)">Red Wines ▾</button>
+          <button class="vpill vpill-drop" data-drop="drop-red">Red Wines ▾</button>
           <div id="drop-red" class="drop-menu">
-            <button onclick="showTabFromHeader('pinotnoir',this);closeDrop()">Pinot Noir</button>
-            <button onclick="showTabFromHeader('cabsauv',this);closeDrop()">Cabernet Sauvignon</button>
+            <button data-tab="pinotnoir">Pinot Noir</button>
+            <button data-tab="cabsauv">Cabernet Sauvignon</button>
           </div>
         </div>
         <!-- VDC Wines dropdown -->
         <div class="pill-group">
-          <button class="vpill vpill-drop" onclick="toggleDrop('drop-vdc',event)">VDC Wines ▾</button>
+          <button class="vpill vpill-drop" data-drop="drop-vdc">VDC Wines ▾</button>
           <div id="drop-vdc" class="drop-menu">
-            <button onclick="showTabFromHeader(&quot;vdc-pg&quot;,this);closeDrop()">VDC Pinot Grigio</button>
-            <button onclick="showTabFromHeader(&quot;vdc-chard&quot;,this);closeDrop()">VDC Chardonnay</button>
+            <button data-tab="vdc-pg">VDC Pinot Grigio</button>
+            <button data-tab="vdc-chard">VDC Chardonnay</button>
           </div>
         </div>
+      </div>
       </div>
     </div>
   </div>
@@ -463,6 +464,7 @@
   <button class="nav-btn" onclick="showTab('clarity', this)">Clarity & Color</button>
   <button class="nav-btn" onclick="showTab('log', this)">Batch Log</button>
   <button class="nav-btn" onclick="showTab('story', this)">Our Story</button>
+  <button class="nav-btn" onclick="showTab('club', this)">Join VDC Club House</button>
   <button class="nav-btn" onclick="showTab('lab', this)">Our Wine Lab</button>
 </nav>
 
@@ -1856,6 +1858,104 @@
 
 </div>
 
+
+<!-- JOIN VDC CLUB HOUSE -->
+<div id="tab-club" class="panel">
+
+  <div style="background:#7a1c2e;border-radius:12px;padding:2.5rem 2rem;margin-bottom:1.25rem;">
+    <div style="font-size:11px;font-weight:500;color:rgba(255,255,255,0.65);text-transform:uppercase;letter-spacing:0.12em;margin-bottom:8px;">Valles del Colibri &bull; Community</div>
+    <div style="font-family:Georgia,serif;font-size:2rem;color:white;line-height:1.2;margin-bottom:0.75rem;">VDC Club House</div>
+    <div style="font-size:14px;color:rgba(255,255,255,0.85);line-height:1.7;max-width:520px;">
+      Make wine with us &mdash; learn, laugh, and share the joy of home winemaking in our basement lab in Shoreline, Washington.
+    </div>
+  </div>
+
+  <div style="background:white;border:1px solid #e0d8d0;border-radius:12px;padding:1.5rem;margin-bottom:1.25rem;">
+    <div style="font-size:10px;font-weight:500;color:#8a7d72;text-transform:uppercase;letter-spacing:0.1em;margin-bottom:0.75rem;">About the Club</div>
+    <div style="font-size:1.2rem;font-weight:500;margin-bottom:1rem;">Welcome to the VDC Club House</div>
+    <p style="font-size:14px;color:#5a5048;line-height:1.8;margin-bottom:1rem;">
+      Hosted by <strong>Sandra and Rose</strong>, the VDC Club House is a community space created to exchange experiences during the home winemaking process. We opened our basement lab and our hearts to a small group of fellow wine lovers who share our curiosity and passion for learning.
+    </p>
+    <p style="font-size:14px;color:#5a5048;line-height:1.8;margin-bottom:1rem;">
+      In our sessions we guide you through every step of the winemaking process: from measuring gravity and adjusting acidity, to fermentation, clarification, and bottling. We provide the space, the equipment, and the knowledge. You bring your enthusiasm!
+    </p>
+    <p style="font-size:14px;color:#5a5048;line-height:1.8;margin-bottom:1.25rem;">
+      Come to our lab, make wine with us, taste together, and go home with something crafted by your own hands. Let us have fun while we learn and enjoy these experiences!
+    </p>
+    <div style="display:grid;grid-template-columns:repeat(auto-fit,minmax(130px,1fr));gap:10px;">
+      <div style="background:#f5f2ec;border-radius:8px;padding:1rem;text-align:center;">
+        <div style="font-size:1.4rem;margin-bottom:4px;">&#127863;</div>
+        <div style="font-size:12px;font-weight:500;margin-bottom:4px;">Make Wine</div>
+        <div style="font-size:12px;color:#8a7d72;">Hands-on from must to bottle</div>
+      </div>
+      <div style="background:#f5f2ec;border-radius:8px;padding:1rem;text-align:center;">
+        <div style="font-size:1.4rem;margin-bottom:4px;">&#128300;</div>
+        <div style="font-size:12px;font-weight:500;margin-bottom:4px;">Learn</div>
+        <div style="font-size:12px;color:#8a7d72;">Chemistry, process and measurements</div>
+      </div>
+      <div style="background:#f5f2ec;border-radius:8px;padding:1rem;text-align:center;">
+        <div style="font-size:1.4rem;margin-bottom:4px;">&#128101;</div>
+        <div style="font-size:12px;font-weight:500;margin-bottom:4px;">Share</div>
+        <div style="font-size:12px;color:#8a7d72;">Small group, personal guidance</div>
+      </div>
+      <div style="background:#f5f2ec;border-radius:8px;padding:1rem;text-align:center;">
+        <div style="font-size:1.4rem;margin-bottom:4px;">&#127942;</div>
+        <div style="font-size:12px;font-weight:500;margin-bottom:4px;">Enjoy</div>
+        <div style="font-size:12px;color:#8a7d72;">Taste and take home your wine</div>
+      </div>
+    </div>
+  </div>
+
+  <div style="background:white;border:1px solid #e0d8d0;border-radius:12px;padding:1.5rem;margin-bottom:1.25rem;">
+    <div style="font-size:10px;font-weight:500;color:#8a7d72;text-transform:uppercase;letter-spacing:0.1em;margin-bottom:0.75rem;">2026 Sessions</div>
+    <div style="font-size:1.2rem;font-weight:500;margin-bottom:0.25rem;">Upcoming Club Sessions</div>
+    <div style="font-size:13px;color:#8a7d72;margin-bottom:1.25rem;">Click any session to register your interest</div>
+    <div id="sessions-list"></div>
+  </div>
+
+  <div id="club-form-wrap" style="display:none;background:white;border:2px solid #7a1c2e;border-radius:12px;padding:1.5rem;margin-bottom:1.25rem;">
+    <div style="font-size:10px;font-weight:500;color:#7a1c2e;text-transform:uppercase;letter-spacing:0.1em;margin-bottom:0.5rem;">Register Interest</div>
+    <div style="font-size:1.1rem;font-weight:500;margin-bottom:0.25rem;" id="form-session-title"></div>
+    <div style="font-size:13px;color:#8a7d72;margin-bottom:1.25rem;" id="form-session-date"></div>
+    <div style="display:grid;grid-template-columns:1fr 1fr;gap:12px;margin-bottom:12px;">
+      <div>
+        <label style="font-size:12px;color:#5a5048;display:block;margin-bottom:4px;">First Name *</label>
+        <input id="f-first" type="text" placeholder="Your first name" style="width:100%;border:1px solid #d0c8c0;border-radius:8px;padding:9px 12px;font-size:13px;font-family:inherit;box-sizing:border-box;">
+      </div>
+      <div>
+        <label style="font-size:12px;color:#5a5048;display:block;margin-bottom:4px;">Last Name *</label>
+        <input id="f-last" type="text" placeholder="Your last name" style="width:100%;border:1px solid #d0c8c0;border-radius:8px;padding:9px 12px;font-size:13px;font-family:inherit;box-sizing:border-box;">
+      </div>
+      <div>
+        <label style="font-size:12px;color:#5a5048;display:block;margin-bottom:4px;">Email *</label>
+        <input id="f-email" type="email" placeholder="your@email.com" style="width:100%;border:1px solid #d0c8c0;border-radius:8px;padding:9px 12px;font-size:13px;font-family:inherit;box-sizing:border-box;">
+      </div>
+      <div>
+        <label style="font-size:12px;color:#5a5048;display:block;margin-bottom:4px;">Phone</label>
+        <input id="f-phone" type="tel" placeholder="(206) 555-0123" style="width:100%;border:1px solid #d0c8c0;border-radius:8px;padding:9px 12px;font-size:13px;font-family:inherit;box-sizing:border-box;">
+      </div>
+      <div style="grid-column:1/-1;">
+        <label style="font-size:12px;color:#5a5048;display:block;margin-bottom:4px;">Tell us about yourself</label>
+        <textarea id="f-msg" rows="3" placeholder="I love wine and want to learn how to make it at home..." style="width:100%;border:1px solid #d0c8c0;border-radius:8px;padding:9px 12px;font-size:13px;font-family:inherit;resize:vertical;box-sizing:border-box;"></textarea>
+      </div>
+    </div>
+    <div style="display:flex;gap:10px;flex-wrap:wrap;">
+      <button id="btn-submit" style="background:#7a1c2e;color:white;border:none;border-radius:8px;padding:11px 24px;font-size:13px;font-weight:500;font-family:inherit;cursor:pointer;">Send my interest</button>
+      <button id="btn-cancel" style="background:none;color:#5a5048;border:1px solid #d0c8c0;border-radius:8px;padding:11px 18px;font-size:13px;font-family:inherit;cursor:pointer;">Cancel</button>
+    </div>
+    <div id="form-success" style="display:none;background:#e8f5ee;border-radius:8px;padding:12px 16px;margin-top:12px;font-size:13px;color:#2d6a4f;line-height:1.6;">
+      Thank you! Sandra and Rose will reach out to you soon. We cannot wait to make wine with you!
+    </div>
+  </div>
+
+  <div style="background:#f5f2ec;border-radius:12px;padding:1.5rem;text-align:center;">
+    <div style="font-size:1rem;font-weight:500;color:#1a1410;margin-bottom:0.5rem;">Ready to join us?</div>
+    <div style="font-size:13px;color:#5a5048;line-height:1.7;">
+      Click any session above to register. Space is limited to small groups so everyone gets hands-on time. Hosted at our home lab in <strong>Shoreline, Washington</strong>.
+    </div>
+  </div>
+
+</div>
 </main>
 
 <script>
@@ -1921,17 +2021,31 @@ function calcTempCorr() {
 calcTempCorr();
 
 
-function toggleDrop(id, e) {
-  e.stopPropagation();
-  document.querySelectorAll('.drop-menu').forEach(d => {
-    if (d.id !== id) d.classList.remove('open');
-  });
-  document.getElementById(id).classList.toggle('open');
-}
-function closeDrop() {
-  document.querySelectorAll('.drop-menu').forEach(d => d.classList.remove('open'));
-}
-document.addEventListener('click', closeDrop);
+// Dropdown: open/close via data-drop attribute
+document.addEventListener('click', function(e) {
+  var dropBtn = e.target.closest('[data-drop]');
+  var tabBtn  = e.target.closest('[data-tab]');
+
+  if (dropBtn) {
+    e.stopPropagation();
+    var targetId = dropBtn.getAttribute('data-drop');
+    document.querySelectorAll('.drop-menu').forEach(function(d) {
+      if (d.id !== targetId) d.classList.remove('open');
+    });
+    document.getElementById(targetId).classList.toggle('open');
+    return;
+  }
+
+  if (tabBtn) {
+    var tabId = tabBtn.getAttribute('data-tab');
+    document.querySelectorAll('.drop-menu').forEach(function(d) { d.classList.remove('open'); });
+    showTabFromHeader(tabId, tabBtn);
+    return;
+  }
+
+  // click outside — close all
+  document.querySelectorAll('.drop-menu').forEach(function(d) { d.classList.remove('open'); });
+});
 
 function showTab(id, btn) {
   document.querySelectorAll('.panel').forEach(p => p.classList.remove('active'));
@@ -2066,6 +2180,92 @@ function renderLog() {
   `).join('');
 }
 renderLog();
+
 </script>
+
+<script>
+var vdcSessions = [
+  {id:1, month:"FEB", day:"10", dow:"Tue", date:"February 10, 2026", topic:"Introduction to Home Winemaking", desc:"Meet the group, tour the lab, learn the basics of fermentation, gravity, and pH."},
+  {id:2, month:"FEB", day:"24", dow:"Tue", date:"February 24, 2026", topic:"Must Preparation and Yeast Pitching", desc:"Hands-on: prepare your first must, measure OG, add nutrients, pitch yeast."},
+  {id:3, month:"MAR", day:"10", dow:"Tue", date:"March 10, 2026", topic:"Primary Fermentation and Monitoring", desc:"Check gravity, add nutrients, understand what is happening in the carboy."},
+  {id:4, month:"MAR", day:"24", dow:"Tue", date:"March 24, 2026", topic:"Racking and Secondary Fermentation", desc:"Transfer wine off lees, learn sulfite management, and fine-tune acidity."},
+  {id:5, month:"APR", day:"14", dow:"Tue", date:"April 14, 2026", topic:"Fining, Clarity and Cold Crashing", desc:"Add fining agents, cold crash for clarity, and discuss color correction."},
+  {id:6, month:"APR", day:"28", dow:"Tue", date:"April 28, 2026", topic:"Bottling Day!", desc:"Cork, label, and take home the wine you made. Celebration tasting included!"},
+  {id:7, month:"MAY", day:"12", dow:"Tue", date:"May 12, 2026", topic:"Tasting and Evaluation Session", desc:"Formal tasting of finished wines, discuss flavor profiles and improvements."},
+  {id:8, month:"MAY", day:"26", dow:"Tue", date:"May 26, 2026", topic:"Advanced Techniques: MLF and Oak", desc:"Explore malolactic fermentation, oak additions, and red wine methods."},
+  {id:9, month:"JUN", day:"10", dow:"Wed", date:"June 10, 2026", topic:"Season Finale and New Batch Planning", desc:"Celebrate the season, plan Batch 2, and welcome new club members."}
+];
+
+function renderSessions() {
+  var el = document.getElementById("sessions-list");
+  if (!el) return;
+  var html = "";
+  for (var i = 0; i < vdcSessions.length; i++) {
+    var s = vdcSessions[i];
+    html += '<div data-session="' + s.id + '" style="display:flex;align-items:center;gap:14px;padding:12px;border-radius:8px;margin-bottom:8px;background:#faf8f4;border:1px solid #e8e0d5;cursor:pointer;">';
+    html += '<div style="background:#7a1c2e;color:white;border-radius:8px;padding:8px 10px;text-align:center;min-width:48px;flex-shrink:0;">';
+    html += '<div style="font-size:9px;opacity:0.8;">' + s.month + '</div>';
+    html += '<div style="font-size:16px;font-weight:700;">' + s.day + '</div>';
+    html += '<div style="font-size:9px;opacity:0.8;">' + s.dow + '</div>';
+    html += '</div>';
+    html += '<div style="flex:1;">';
+    html += '<div style="font-size:13px;font-weight:500;color:#1a1410;margin-bottom:2px;">Session ' + s.id + ': ' + s.topic + '</div>';
+    html += '<div style="font-size:12px;color:#8a7d72;line-height:1.5;">' + s.desc + '</div>';
+    html += '</div>';
+    html += '<div style="color:#7a1c2e;font-size:18px;flex-shrink:0;">&rarr;</div>';
+    html += '</div>';
+  }
+  el.innerHTML = html;
+
+  // Attach click listeners
+  var cards = el.querySelectorAll("[data-session]");
+  for (var j = 0; j < cards.length; j++) {
+    cards[j].addEventListener("click", function() {
+      openClubForm(parseInt(this.getAttribute("data-session")));
+    });
+    cards[j].addEventListener("mouseover", function() { this.style.background = "#f5eaec"; });
+    cards[j].addEventListener("mouseout",  function() { this.style.background = "#faf8f4"; });
+  }
+}
+
+function openClubForm(sessionId) {
+  var s = null;
+  for (var i = 0; i < vdcSessions.length; i++) {
+    if (vdcSessions[i].id === sessionId) { s = vdcSessions[i]; break; }
+  }
+  if (!s) return;
+  document.getElementById("form-session-title").textContent = "Session " + s.id + ": " + s.topic;
+  document.getElementById("form-session-date").textContent = s.date;
+  document.getElementById("form-success").style.display = "none";
+  var wrap = document.getElementById("club-form-wrap");
+  wrap.style.display = "block";
+  setTimeout(function() { wrap.scrollIntoView({behavior:"smooth", block:"start"}); }, 50);
+}
+
+document.addEventListener("DOMContentLoaded", function() {
+  renderSessions();
+
+  document.getElementById("btn-submit").addEventListener("click", function() {
+    var first = document.getElementById("f-first").value.trim();
+    var last  = document.getElementById("f-last").value.trim();
+    var email = document.getElementById("f-email").value.trim();
+    if (!first || !last || !email) {
+      alert("Please fill in your first name, last name, and email.");
+      return;
+    }
+    document.getElementById("form-success").style.display = "block";
+    document.getElementById("f-first").value = "";
+    document.getElementById("f-last").value  = "";
+    document.getElementById("f-email").value = "";
+    document.getElementById("f-phone").value = "";
+    document.getElementById("f-msg").value   = "";
+  });
+
+  document.getElementById("btn-cancel").addEventListener("click", function() {
+    document.getElementById("club-form-wrap").style.display = "none";
+  });
+});
+</script>
+
 </body>
 </html>
